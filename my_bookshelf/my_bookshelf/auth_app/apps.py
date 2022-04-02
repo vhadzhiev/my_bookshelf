@@ -3,4 +3,4 @@ from django.apps import AppConfig
 
 class AuthConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'my_bookshelf.auth'
+    name = 'my_bookshelf.auth_app'
