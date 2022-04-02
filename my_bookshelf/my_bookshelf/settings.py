@@ -81,10 +81,21 @@ WSGI_APPLICATION = 'my_bookshelf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9m1miqn10ud6i',
+        'USER': 'wvfkyvmlitaiem',
+        'PASSWORD': '0d03e1528d69ea250cebff69efc63e2b975c6c1b3546b95a820c4b9b48b3248b',
+        'HOST': 'ec2-99-80-170-190.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
