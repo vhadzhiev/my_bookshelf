@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import cloudinary
+
 from my_bookshelf.utils import is_production, is_test
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -166,3 +168,9 @@ LOGGING = {
         }
     }
 }
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', None),
+    api_key=os.getenv('CLOUDINARY_API_KEY', None),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET', None),
+)
