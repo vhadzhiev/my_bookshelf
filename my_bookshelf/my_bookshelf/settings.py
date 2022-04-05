@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 import cloudinary
+from django.urls import reverse_lazy
+
 from my_bookshelf.utils import is_production, is_test
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,8 +49,7 @@ ROOT_URLCONF = 'my_bookshelf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -157,3 +158,9 @@ cloudinary.config(
     api_key=os.getenv('CLOUDINARY_API_KEY', None),
     api_secret=os.getenv('CLOUDINARY_API_SECRET', None),
 )
+
+AUTH_USER_MODEL = 'auth_app.MyBookshelfUser'
+
+LOGIN_URL = reverse_lazy('login user')
+
+LOGOUT_REDIRECT_URL = reverse_lazy('index')

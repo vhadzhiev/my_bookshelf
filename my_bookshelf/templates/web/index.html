@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyBookshelf</title>
+</head>
+<body>
+
+<a href="{% url 'register user' %}">Register</a>
+<a href="{% url 'login user' %}">Login</a>
+<a href="{% url 'logout user' %}">Logout</a>
+
+<h1>
+    {{ request.user }}
+</h1>
+</body>
+</html>
