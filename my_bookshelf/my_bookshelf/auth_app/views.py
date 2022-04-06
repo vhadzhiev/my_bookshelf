@@ -59,3 +59,12 @@ class UserLoginView(auth_views.LoginView):
 
 class UserLogoutView(auth_views.LogoutView):
     pass
+
+
+class ChangePasswordView(auth_views.PasswordChangeView):
+    template_name = 'auth/change_password.html'
+
+    def get_success_url(self):
+        return reverse_lazy('index')
+
+
