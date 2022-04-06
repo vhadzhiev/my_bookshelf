@@ -19,6 +19,10 @@ class MyBookshelfUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
         auto_now_add=True,
     )
 
+    is_active = models.BooleanField(
+        default=True,
+    )
+
     USERNAME_FIELD = 'email'
 
     objects = MyBookshelfUsersManager()
@@ -41,3 +45,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
+
+    @property
+    def full_name(self):
+        return f'{self.first_name} {self.last_name}'

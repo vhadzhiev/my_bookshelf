@@ -162,5 +162,7 @@ cloudinary.config(
 AUTH_USER_MODEL = 'auth_app.MyBookshelfUser'
 
 LOGIN_URL = reverse_lazy('login user')
-
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'

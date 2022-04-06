@@ -62,9 +62,23 @@ class UserLogoutView(auth_views.LogoutView):
 
 
 class ChangePasswordView(auth_views.PasswordChangeView):
-    template_name = 'auth/change_password.html'
+    template_name = 'auth/password_change.html'
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('password change done')
 
 
+class ResetPasswordView(auth_views.PasswordResetView):
+    template_name = 'auth/password_reset.html'
+
+
+class ResetPasswordDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'auth/password_reset_done.html'
+
+
+class ResetPasswordConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'auth/password_reset_confirm.html'
+
+
+class ResetPasswordCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'auth/password_reset_complete.html'
