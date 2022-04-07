@@ -1,5 +1,14 @@
-<form action="{% url 'register user' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <button>Register</button>
-</form>
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block page_content %}
+    <div class="container py-5">
+        <h1>Register</h1>
+        <form method="post" action="{% url 'register user' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+        <p class="text-center">If you already have an account, <a href="{% url 'login user' %}">login</a> instead.</p>
+    </div>
+{% endblock %}
+
