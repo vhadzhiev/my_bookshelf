@@ -51,9 +51,6 @@ class UserLoginView(auth_views.LoginView):
     template_name = 'auth/login.html'
 
     def get_success_url(self):
-        next = self.request.GET.get('next', None)
-        if next:
-            return next
         return reverse_lazy('home')
 
 
