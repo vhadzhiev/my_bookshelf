@@ -24,7 +24,9 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
 )
 
-THIRD_PARTY_APPS = ()
+THIRD_PARTY_APPS = (
+    'crispy_forms',
+)
 
 PROJECT_APPS = (
     'my_bookshelf.auth_app',
@@ -162,7 +164,8 @@ cloudinary.config(
 AUTH_USER_MODEL = 'auth_app.MyBookshelfUser'
 
 LOGIN_URL = reverse_lazy('login user')
-LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

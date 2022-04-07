@@ -37,7 +37,7 @@ class UserRegistrationForm(auth_forms.UserCreationForm):
 class UserRegistrationView(views.CreateView):
     form_class = UserRegistrationForm
     template_name = 'auth/register.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         result = super().form_valid(form)
@@ -54,11 +54,11 @@ class UserLoginView(auth_views.LoginView):
         next = self.request.GET.get('next', None)
         if next:
             return next
-        return reverse_lazy('index')
+        return reverse_lazy('home')
 
 
 class UserLogoutView(auth_views.LogoutView):
-    pass
+    template_name = 'auth/logout.html'
 
 
 class ChangePasswordView(auth_views.PasswordChangeView):
