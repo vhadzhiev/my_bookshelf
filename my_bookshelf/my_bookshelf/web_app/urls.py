@@ -1,6 +1,7 @@
 from django.urls import path
-from django.views.generic import TemplateView
+
+from my_bookshelf.web_app.views import HomeView
 
 urlpatterns = (
-    path('', TemplateView.as_view(template_name='web/home.html'), name='home'),
+    path('', HomeView.as_view(), name='home'),
 )

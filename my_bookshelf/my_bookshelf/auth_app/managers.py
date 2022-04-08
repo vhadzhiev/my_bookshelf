@@ -1,9 +1,8 @@
-from django.contrib.auth import base_user
+from django.contrib.auth import base_user as auth_base
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
 
 
-class MyBookshelfUsersManager(base_user.BaseUserManager):
+class MyBookshelfUsersManager(auth_base.BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("The given email must be set")

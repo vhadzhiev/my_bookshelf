@@ -96,16 +96,16 @@ AUTH_PASSWORD_VALIDATORS = []
 if is_production():
     AUTH_PASSWORD_VALIDATORS.extend([
         {
-            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+            'NAME': 'django.contrib.auth_app.password_validation.UserAttributeSimilarityValidator',
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'NAME': 'django.contrib.auth_app.password_validation.MinimumLengthValidator',
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+            'NAME': 'django.contrib.auth_app.password_validation.CommonPasswordValidator',
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+            'NAME': 'django.contrib.auth_app.password_validation.NumericPasswordValidator',
         },
     ])
 
@@ -162,8 +162,6 @@ cloudinary.config(
 )
 
 AUTH_USER_MODEL = 'auth_app.MyBookshelfUser'
-
-LOGIN_URL = reverse_lazy('login user')
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'

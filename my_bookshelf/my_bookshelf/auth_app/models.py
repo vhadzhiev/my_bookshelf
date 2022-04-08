@@ -11,12 +11,12 @@ class MyBookshelfUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
         blank=False,
     )
 
-    is_staff = models.BooleanField(
-        default=False,
-    )
-
     date_joined = models.DateTimeField(
         auto_now_add=True,
+    )
+
+    is_staff = models.BooleanField(
+        default=False,
     )
 
     is_active = models.BooleanField(

@@ -9,7 +9,7 @@ from my_bookshelf.auth_app.models import Profile
 UserModel = get_user_model()
 
 
-class UserRegistrationForm(auth_forms.UserCreationForm):
+class UserRegisterForm(auth_forms.UserCreationForm):
     first_name = forms.CharField(
         max_length=Profile.FIRST_NAME_MAX_LEN,
     )
@@ -34,9 +34,9 @@ class UserRegistrationForm(auth_forms.UserCreationForm):
         return user
 
 
-class UserRegistrationView(views.CreateView):
-    form_class = UserRegistrationForm
-    template_name = 'auth/register.html'
+class UserRegisterView(views.CreateView):
+    form_class = UserRegisterForm
+    template_name = 'auth_app/register.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -48,34 +48,45 @@ class UserRegistrationView(views.CreateView):
 
 
 class UserLoginView(auth_views.LoginView):
-    template_name = 'auth/login.html'
+    template_name = 'auth_app/login.html'
+    success_url = reverse_lazy('home')
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        if self.success_url:
+            return self.success_url
+        return super().get_success_url()
 
 
 class UserLogoutView(auth_views.LogoutView):
-    template_name = 'auth/logout.html'
+    template_name = 'auth_app/logout.html'
 
 
-class ChangePasswordView(auth_views.PasswordChangeView):
-    template_name = 'auth/password_change.html'
+class ProfileDetailsView:
+    pass
+
+
+class ProfileEditView:
+    pass
+
+
+class ChangeUserPasswordView(auth_views.PasswordChangeView):
+    template_name = 'auth_app/password_change.html'
 
     def get_success_url(self):
         return reverse_lazy('password change done')
 
 
-class ResetPasswordView(auth_views.PasswordResetView):
-    template_name = 'auth/password_reset.html'
+class ResetUserPasswordView(auth_views.PasswordResetView):
+    template_name = 'auth_app/password_reset.html'
 
 
-class ResetPasswordDoneView(auth_views.PasswordResetDoneView):
-    template_name = 'auth/password_reset_done.html'
+class ResetUserPasswordDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'auth_app/password_reset_done.html'
 
 
-class ResetPasswordConfirmView(auth_views.PasswordResetConfirmView):
-    template_name = 'auth/password_reset_confirm.html'
+class ResetUserPasswordConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'auth_app/password_reset_confirm.html'
 
 
-class ResetPasswordCompleteView(auth_views.PasswordResetCompleteView):
-    template_name = 'auth/password_reset_complete.html'
+class ResetUserPasswordCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'auth_app/password_reset_complete.html'
