@@ -2,13 +2,13 @@
 {% load crispy_forms_filters %}
 {% block page_content %}
     <div class="container py-5">
-        <h1>Change Password</h1>
+        <h1>Are you sure you want to delete your profile?</h1>
         <hr>
-        <form method="post" action="{% url 'password change' request.user.id %}">
+        <form action="{% url 'profile delete' request.user.id %}" method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="text-center">
-                <button class="btn btn-success" type="submit">Submit</button>
+                <button class="btn btn-danger" type="submit">Delete</button>
             </div>
         </form>
     </div>

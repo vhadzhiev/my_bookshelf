@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <div class="container py-5">
+        <h1>{{ profile.full_name }}'s profile</h1>
+        <div>
+            <p class="img"><img src="{{ profile.image_url }}" alt="add profile pic"></p>
+            <h5>First name: {{ profile.first_name }}</h5>
+            <h5>Last name: {{ profile.last_name }}</h5>
+            <h5>Birthdate: {{ profile.date_of_birth }}</h5>
+            <h5>Email: {{ profile.user }}</h5>
+            <h5>Bio: {{ profile.bio }}</h5>
+            <div>
+                <a class="btn btn-success" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
+                <a class="btn btn-danger" href="{% url 'profile delete' request.user.id %}">Delete Profile</a>
+                <a class="btn btn-warning" href="{% url 'password change' request.user.id %}">Change Password</a>
+            </div>
+        </div>
+        <div>
+            <p class="mt-2">Books: </p>
+            <p class="mt-2">Bookshelves: </p>
+        </div>
+    </div>
+{% endblock %}

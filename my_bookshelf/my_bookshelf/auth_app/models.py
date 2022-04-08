@@ -1,4 +1,4 @@
-from django.contrib.auth import models as auth_models
+from django.contrib.auth import models as auth_models, get_user_model
 from django.db import models
 
 from my_bookshelf.auth_app.managers import MyBookshelfUsersManager
@@ -38,6 +38,13 @@ class Profile(models.Model):
 
     last_name = models.CharField(
         max_length=LAST_NAME_MAX_LEN,
+    )
+
+    bio = models.TextField()
+
+    date_of_birth = models.DateField(
+        blank=True,
+        null=True,
     )
 
     user = models.OneToOneField(
