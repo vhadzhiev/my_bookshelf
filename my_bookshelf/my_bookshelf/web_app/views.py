@@ -31,10 +31,10 @@ class CreateBookView(views.CreateView):
     template_name = 'web_app/book_add.html'
     success_url = reverse_lazy('dashboard')
 
-    def form_valid(self, form):
-        user = MyBookshelfUser.objects.get(pk=self.request.user.id)
-        form.instance.user = user
-        return super().form_valid(form)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class BookDetailsView(views.DetailView):
