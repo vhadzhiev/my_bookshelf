@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <div class="container py-5">
+        <h1>Book details</h1>
+        <hr>
+        <div>
+            <p class="img"><img src="{{ book.image_url }}" alt="add book cover"></p>
+            <h5>Title: {{ book.title }}</h5>
+            <h5>Author: {{ book.author }}</h5>
+            <h5>ISBN: {{ book.isbn }}</h5>
+            <h5>Genre: {{ book.genre }}</h5>
+            <h5>Description: {{ book.description }}</h5>
+            <div class="text-center">
+                <a class="btn btn-success" href="{% url 'book edit' book.id %}">Edit Book</a>
+                <a class="btn btn-danger" href="{% url 'book delete' book.id %}">Delete Book</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

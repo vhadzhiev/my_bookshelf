@@ -7,6 +7,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.forms import UserRegisterForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser
+from my_bookshelf.web_app.models import Book
 
 UserModel = get_user_model()
 
@@ -66,26 +67,31 @@ class ProfileDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # books, bookshelves
+        profile = self.object.user_id
+        context['books_count'] = len(Book.objects.all().filter(user_id=profile))
         return context
 
 
 class ProfileEditView(views.UpdateView):
     model = Profile
     template_name = 'auth_app/profile_edit.html'
-    fields = ('first_name', 'last_name', 'bio', 'date_of_birth')
+    fields = ('first_name', 'last_name', 'date_of_birth', 'bio')
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
 
 
 class ProfileDeleteView(views.DeleteView):
-    model = Profile
+    model = MyBookshelfUser
     template_name = 'auth_app/profile_delete.html'
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        user = MyBookshelfUser.objects.get(pk=self.object.user_id)
-        self.object.delete()
+        user = self.object
         user.is_active = False
         user.save()
+        Profile.objects.get(pk=user.id).delete()
+        Book.objects.filter(user_id=user.id).delete()
         return redirect('home')
+
+

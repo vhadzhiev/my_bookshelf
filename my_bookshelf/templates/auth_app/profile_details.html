@@ -2,6 +2,7 @@
 {% block page_content %}
     <div class="container py-5">
         <h1>{{ profile.full_name }}'s profile</h1>
+        <hr>
         <div>
             <p class="img"><img src="{{ profile.image_url }}" alt="add profile pic"></p>
             <h5>First name: {{ profile.first_name }}</h5>
@@ -16,7 +17,7 @@
             </div>
         </div>
         <div>
-            <p class="mt-2">Books: </p>
+            <p class="mt-2">My books: {{ books_count }}</p>
             <p class="mt-2">Bookshelves: </p>
         </div>
     </div>
