@@ -1,6 +1,8 @@
 from django.shortcuts import redirect
 from django.views import generic as views
 
+from my_bookshelf.auth_app.models import Profile
+
 
 class HomeView(views.TemplateView):
     template_name = 'web_app/home.html'
@@ -17,8 +19,8 @@ class HomeView(views.TemplateView):
 
 
 class DashboardView(views.ListView):
-    # model = Book
+    model = Profile
     template_name = 'web_app/dashboard.html'
-    context_object_name = 'book'
+
 
 

@@ -7,9 +7,7 @@
         <form action="{% url 'profile delete' request.user.id %}" method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <div class="text-center">
-                <button class="btn btn-danger" type="submit">Delete</button>
-            </div>
+            <button class="btn btn-danger" type="submit">Delete</button>
         </form>
     </div>
 {% endblock %}

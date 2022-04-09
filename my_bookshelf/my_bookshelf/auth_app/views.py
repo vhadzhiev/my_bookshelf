@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth import views as auth_views
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from my_bookshelf.auth_app.forms import UserRegisterForm, ProfileDeleteForm
+from my_bookshelf.auth_app.forms import UserRegisterForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser
 
 UserModel = get_user_model()
@@ -79,20 +79,13 @@ class ProfileEditView(views.UpdateView):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
 
 
-def profile_delete(request, pk):
-    profile = Profile.objects.get(pk=pk)
-    user = MyBookshelfUser.objects.get(pk=profile.pk)
-    if request.method == 'POST':
-        form = ProfileDeleteForm(request.POST, instance=profile)
-        if form.is_valid():
-            form.save()
-            user.is_active = False
-            user.save()
-            return redirect('home')
-    else:
-        form = ProfileDeleteForm(instance=profile)
+class ProfileDeleteView(views.DeleteView):
+    model = Profile
+    template_name = 'auth_app/profile_delete.html'
 
-    context = {
-        'form': form
-    }
-    return render(request, 'auth_app/profile_delete.html', context)
+    def form_valid(self, form):
+        user = MyBookshelfUser.objects.get(pk=self.object.user_id)
+        self.object.delete()
+        user.is_active = False
+        user.save()
+        return redirect('home')
