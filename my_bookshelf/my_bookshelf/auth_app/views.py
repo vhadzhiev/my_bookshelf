@@ -7,7 +7,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.forms import UserRegisterForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser
-from my_bookshelf.web_app.models import Book
+from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()
 
@@ -92,6 +92,7 @@ class ProfileDeleteView(views.DeleteView):
         user.save()
         Profile.objects.get(pk=user.id).delete()
         Book.objects.filter(user_id=user.id).delete()
+        Bookshelf.objects.filter(user_id=user.id).delete()
         return redirect('home')
 
 
