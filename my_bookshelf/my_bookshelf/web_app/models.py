@@ -52,6 +52,10 @@ class Book(models.Model):
         choices=GENRES
     )
 
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+    )
+
     description = models.TextField(
         null=True,
         blank=True,
@@ -62,12 +66,31 @@ class Book(models.Model):
         on_delete=models.CASCADE,
     )
 
-    # bookshelf = models.ManyToManyField(
-    #     Bookshelf,
-    # )
-
     def __str__(self):
         return self.title
 
     class Meta:
         unique_together = ('user', 'isbn')
+
+
+class Bookshelf(models.Model):
+    TITLE_MAX_LEN = 100
+
+    title = models.CharField(
+        max_length=TITLE_MAX_LEN,
+    )
+
+    description = models.TextField(
+        blank=True,
+        null=True,
+    )
+
+    user = models.ForeignKey(
+        UserModel,
+        on_delete=models.CASCADE,
+    )
+
+    books = models.ManyToManyField(
+        Book,
+        related_name='bookshelves',
+    )
