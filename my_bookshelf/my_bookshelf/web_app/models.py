@@ -80,6 +80,10 @@ class Bookshelf(models.Model):
         max_length=TITLE_MAX_LEN,
     )
 
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+    )
+
     description = models.TextField(
         blank=True,
         null=True,
@@ -94,3 +98,9 @@ class Bookshelf(models.Model):
         Book,
         related_name='bookshelves',
     )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        unique_together = ('user', 'title')
