@@ -67,8 +67,8 @@ class ProfileDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = self.object.user_id
-        context['books_count'] = len(Book.objects.all().filter(user_id=profile))
+        context['books_count'] = len(Book.objects.all().filter(user_id=self.object.user_id))
+        context['bookshelves_count'] = len(Bookshelf.objects.all().filter(user_id=self.object.user_id))
         return context
 
 
