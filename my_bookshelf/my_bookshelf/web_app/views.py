@@ -9,11 +9,6 @@ from my_bookshelf.web_app.models import Book, Bookshelf
 class HomeView(views.TemplateView):
     template_name = 'web_app/home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context['hide_additional_nav_items'] = True
-        return context
-
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect('dashboard')
@@ -82,7 +77,7 @@ class BookshelfDetailsView(views.DetailView):
 class EditBookshelfView(views.UpdateView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_edit.html'
-    fields = ('title', 'description')
+    fields = ('title', 'description', 'books')
 
     def get_success_url(self):
         return reverse_lazy('bookshelf details', kwargs={'pk': self.object.id})
@@ -92,3 +87,19 @@ class DeleteBookshelfView(views.DeleteView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_delete.html'
     success_url = reverse_lazy('home')
+
+
+class MyBooksListView(views.ListView):
+    model = Book
+    template_name = 'web_app/my_books.html'
+
+    def get_queryset(self):
+        return Book.objects.all().filter(user_id=self.request.user.id)
+
+
+class MyBookshelvesListView(views.ListView):
+    model = Bookshelf
+    template_name = 'web_app/my_bookshelves.html'
+
+    def get_queryset(self):
+        return Bookshelf.objects.all().filter(user_id=self.request.user.id)

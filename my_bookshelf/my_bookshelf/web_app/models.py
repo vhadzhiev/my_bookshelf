@@ -97,6 +97,8 @@ class Bookshelf(models.Model):
     books = models.ManyToManyField(
         Book,
         related_name='bookshelves',
+        blank=True,
+        null=True
     )
 
     def __str__(self):
