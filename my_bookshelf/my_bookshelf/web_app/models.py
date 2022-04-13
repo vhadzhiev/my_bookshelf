@@ -56,7 +56,7 @@ class Book(models.Model):
         auto_now_add=True,
     )
 
-    description = models.TextField(
+    summary = models.TextField(
         null=True,
         blank=True,
     )

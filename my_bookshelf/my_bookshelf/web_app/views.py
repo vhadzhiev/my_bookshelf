@@ -45,7 +45,7 @@ class BookDetailsView(views.DetailView):
 class EditBookView(views.UpdateView):
     model = Book
     template_name = 'web_app/book_edit.html'
-    fields = ('title', 'isbn', 'author', 'genre', 'description')
+    fields = ('title', 'isbn', 'author', 'genre', 'summary')
 
     def get_success_url(self):
         return reverse_lazy('book details', kwargs={'pk': self.object.id})
