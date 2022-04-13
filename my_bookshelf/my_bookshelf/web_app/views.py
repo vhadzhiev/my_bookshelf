@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
+from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookForm, CreateBookshelfForm
 from my_bookshelf.web_app.models import Book, Bookshelf
 
@@ -103,3 +104,18 @@ class MyBookshelvesListView(views.ListView):
 
     def get_queryset(self):
         return Bookshelf.objects.all().filter(user_id=self.request.user.id)
+
+
+class ProfilesListView(views.ListView):
+    model = Profile
+    template_name = 'web_app/profiles_list.html'
+
+
+class BooksListView(views.ListView):
+    model = Book
+    template_name = 'web_app/books_list.html'
+
+
+class BookshelvesListView(views.ListView):
+    model = Bookshelf
+    template_name = 'web_app/bookshelves_list.html'

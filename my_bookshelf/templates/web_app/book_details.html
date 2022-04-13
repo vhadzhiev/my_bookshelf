@@ -10,10 +10,12 @@
             <h5>ISBN: {{ book.isbn }}</h5>
             <h5>Genre: {{ book.genre }}</h5>
             <h5>Description: {{ book.summary }}</h5>
+            {% if profile.user_id == request.user.id %}
             <div class="text-center">
                 <a class="btn btn-success" href="{% url 'book edit' book.id %}">Edit Book</a>
                 <a class="btn btn-danger" href="{% url 'book delete' book.id %}">Delete Book</a>
             </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

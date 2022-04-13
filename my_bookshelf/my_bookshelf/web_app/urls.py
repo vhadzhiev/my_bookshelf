@@ -2,7 +2,7 @@ from django.urls import path
 
 from my_bookshelf.web_app.views import HomeView, DashboardView, CreateBookView, EditBookView, DeleteBookView, \
     BookDetailsView, CreateBookshelfView, EditBookshelfView, DeleteBookshelfView, BookshelfDetailsView, MyBooksListView, \
-    MyBookshelvesListView
+    MyBookshelvesListView, ProfilesListView, BooksListView, BookshelvesListView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -20,4 +20,8 @@ urlpatterns = (
 
     path('my_books/', MyBooksListView.as_view(), name='my books'),
     path('my_bookshelves/', MyBookshelvesListView.as_view(), name='my bookshelves'),
+
+    path('profiles_list/', ProfilesListView.as_view(), name='profiles list'),
+    path('books_list/', BooksListView.as_view(), name='books list'),
+    path('bookshelves_list/', BookshelvesListView.as_view(), name='bookshelves list'),
 )

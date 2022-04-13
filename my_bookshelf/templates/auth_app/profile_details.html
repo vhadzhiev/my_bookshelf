@@ -10,14 +10,16 @@
             <h5>Birthdate: {{ profile.date_of_birth }}</h5>
             <h5>Email: {{ profile.user }}</h5>
             <h5>Bio: {{ profile.bio }}</h5>
+            {% if profile.user_id == request.user.id %}
             <div class="text-center">
                 <a class="btn btn-success" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
                 <a class="btn btn-danger" href="{% url 'profile delete' request.user.id %}">Delete Profile</a>
                 <a class="btn btn-warning" href="{% url 'password change' request.user.id %}">Change Password</a>
             </div>
+            {% endif %}
         </div>
         <div>
-            <p class="mt-2">My books: {{ books_count }}</p>
+            <p class="mt-2">Books: {{ books_count }}</p>
             <p class="mt-2">Bookshelves: {{ bookshelves_count }}</p>
         </div>
     </div>

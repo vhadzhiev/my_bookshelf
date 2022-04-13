@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block page_content %}
+    <div class="container py-5">
+        <h1>Profiles List</h1>
+        <hr>
+        <ul>
+            {% for profile in object_list %}
+                <li>
+                    <a href="{% url 'profile details' profile.user_id %}">{{ profile.full_name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

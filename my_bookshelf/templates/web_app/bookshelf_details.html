@@ -6,10 +6,12 @@
         <div>
             <h5>Title: {{ bookshelf.title }}</h5>
             <h5>Description: {{ bookshelf.description }}</h5>
-            <div class="text-center">
-                <a class="btn btn-success" href="{% url 'bookshelf edit' bookshelf.id %}">Edit Bookshelf</a>
-                <a class="btn btn-danger" href="{% url 'bookshelf delete' bookshelf.id %}">Delete Bookshelf</a>
-            </div>
+            {% if profile.user_id == request.user.id %}
+                <div class="text-center">
+                    <a class="btn btn-success" href="{% url 'bookshelf edit' bookshelf.id %}">Edit Bookshelf</a>
+                    <a class="btn btn-danger" href="{% url 'bookshelf delete' bookshelf.id %}">Delete Bookshelf</a>
+                </div>
+            {% endif %}
         </div>
         <div>
             <ul>
