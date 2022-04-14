@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
-from my_bookshelf.web_app.forms import CreateBookForm, CreateBookshelfForm
+from my_bookshelf.web_app.forms import CreateBookForm, CreateBookshelfForm, EditBookshelfForm, EditBookForm
 from my_bookshelf.web_app.models import Book, Bookshelf
 
 
@@ -43,9 +43,15 @@ class BookDetailsView(views.DetailView):
 
 
 class EditBookView(views.UpdateView):
+    form_class = EditBookForm
     model = Book
     template_name = 'web_app/book_edit.html'
-    fields = ('title', 'isbn', 'author', 'genre', 'summary')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['isbn'] = self.object.isbn
+        return kwargs
 
     def get_success_url(self):
         return reverse_lazy('book details', kwargs={'pk': self.object.id})
@@ -84,9 +90,15 @@ class BookshelfDetailsView(views.DetailView):
 
 
 class EditBookshelfView(views.UpdateView):
+    form_class = EditBookshelfForm
     model = Bookshelf
     template_name = 'web_app/bookshelf_edit.html'
-    fields = ('title', 'description', 'books')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        kwargs['title'] = self.object.title
+        return kwargs
 
     def get_success_url(self):
         return reverse_lazy('bookshelf details', kwargs={'pk': self.object.id})
