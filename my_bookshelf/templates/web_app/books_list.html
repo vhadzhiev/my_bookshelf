@@ -3,12 +3,16 @@
     <div class="container py-5">
         <h1>Books List</h1>
         <hr>
-        <ul>
-            {% for book in object_list %}
-                <li>
-                    <a href="{% url 'book details' book.id %}">{{ book.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        {% if object_list %}
+            <ul>
+                {% for book in object_list %}
+                    <li>
+                        <a href="{% url 'book details' book.id %}">{{ book.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h1>No books added to My Bookshelf yet.</h1>
+        {% endif %}
     </div>
 {% endblock %}
