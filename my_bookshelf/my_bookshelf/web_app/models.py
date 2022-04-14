@@ -69,9 +69,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
-        unique_together = ('user', 'isbn')
-
 
 class Bookshelf(models.Model):
     TITLE_MAX_LEN = 100
@@ -102,6 +99,3 @@ class Bookshelf(models.Model):
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        unique_together = ('user', 'title')
