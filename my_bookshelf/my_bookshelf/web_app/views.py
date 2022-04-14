@@ -57,6 +57,11 @@ class CreateBookshelfView(views.CreateView):
     template_name = 'web_app/bookshelf_add.html'
     success_url = reverse_lazy('dashboard')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
