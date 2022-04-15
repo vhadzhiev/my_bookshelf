@@ -3,24 +3,38 @@
     <div class="container py-5">
         <h1>{{ profile.full_name }}'s profile</h1>
         <hr>
+        {% if profile_picture %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{ profile_picture.picture.url }}" class="card-img-top" alt="No profile pic">
+            </div>
+            <a href="{% url 'profile picture change' request.user.id %}" class="badge badge-warning">Change Profile
+                Picture</a>
+            <a href="{% url 'profile picture delete' request.user.id %}" class="badge badge-danger">Delete Profile
+                Picture</a>
+        {% else %}
+            <a href="{% url 'profile picture create' %}" class="badge badge-success">Add Profile Picture</a>
+        {% endif %}
         <div>
-            <p class="img"><img src="{{ profile.image_url }}" alt="add profile pic"></p>
             <h5>First name: {{ profile.first_name }}</h5>
             <h5>Last name: {{ profile.last_name }}</h5>
-            <h5>Birthdate: {{ profile.date_of_birth }}</h5>
+            {% if profile.date_of_birth %}
+                <h5>Birthdate: {{ profile.date_of_birth }}</h5>
+            {% endif %}
             <h5>Email: {{ profile.user }}</h5>
-            <h5>Bio: {{ profile.bio }}</h5>
+            {% if profile.bio %}
+                <h5>Bio: {{ profile.bio }}</h5>
+            {% endif %}
             {% if profile.user_id == request.user.id %}
-            <div class="text-center">
-                <a class="btn btn-success" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
-                <a class="btn btn-danger" href="{% url 'profile delete' request.user.id %}">Delete Profile</a>
-                <a class="btn btn-warning" href="{% url 'password change' request.user.id %}">Change Password</a>
-            </div>
+                <div class="text-center">
+                    <a class="btn btn-success" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
+                    <a class="btn btn-danger" href="{% url 'profile delete' request.user.id %}">Delete Profile</a>
+                    <a class="btn btn-warning" href="{% url 'password change' request.user.id %}">Change Password</a>
+                </div>
             {% endif %}
         </div>
         <div>
-            <p class="mt-2">Books: {{ books_count }}</p>
-            <p class="mt-2">Bookshelves: {{ bookshelves_count }}</p>
+            <p class="mt-2">{{ profile.full_name }}'s Books: {{ books_count }}</p>
+            <p class="mt-2">{{ profile.full_name }}'s Bookshelves: {{ bookshelves_count }}</p>
         </div>
     </div>
 {% endblock %}
