@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% block page_content %}
+    <div class="container py-5">
+        <h1>Are you sure you want to remove your profile picture?</h1>
+        <hr>
+        <form action="{% url 'profile picture delete' request.user.id %}" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+    </div>
+{% endblock %}

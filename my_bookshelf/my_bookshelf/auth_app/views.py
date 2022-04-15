@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 
 from my_bookshelf.auth_app.forms import UserRegisterForm
-from my_bookshelf.auth_app.models import Profile, MyBookshelfUser
+from my_bookshelf.auth_app.models import Profile, MyBookshelfUser, ProfilePicture
 from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()
@@ -69,6 +69,7 @@ class ProfileDetailsView(views.DetailView):
         context = super().get_context_data(**kwargs)
         context['books_count'] = len(Book.objects.all().filter(user_id=self.object.user_id))
         context['bookshelves_count'] = len(Bookshelf.objects.all().filter(user_id=self.object.user_id))
+        context['profile_picture'] = ProfilePicture.objects.all().filter(user_id=self.object.user_id).last()
         return context
 
 
@@ -91,8 +92,37 @@ class ProfileDeleteView(views.DeleteView):
         user.is_active = False
         user.save()
         Profile.objects.get(pk=user.id).delete()
+        ProfilePicture.objects.all().filter(user_id=self.object.user_id).last().delete()
         Book.objects.filter(user_id=user.id).delete()
         Bookshelf.objects.filter(user_id=user.id).delete()
         return redirect('home')
 
 
+class CreateProfilePictureView(views.CreateView):
+    model = ProfilePicture
+    template_name = 'auth_app/profile_picture_add.html'
+    fields = ('picture',)
+
+    def get_success_url(self):
+        return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ChangeProfilePictureView(views.UpdateView):
+    model = ProfilePicture
+    template_name = 'auth_app/profile_picture_change.html'
+    fields = ('picture',)
+
+    def get_success_url(self):
+        return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
+
+
+class DeleteProfilePictureView(views.DeleteView):
+    model = ProfilePicture
+    template_name = 'auth_app/profile_picture_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})

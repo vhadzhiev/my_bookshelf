@@ -3,7 +3,8 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.views import UserRegisterView, UserLoginView, UserLogoutView, ChangeUserPasswordView, \
     ResetUserPasswordView, ResetUserPasswordConfirmView, ResetUserPasswordDoneView, ResetUserPasswordCompleteView, \
-    ProfileDetailsView, ProfileEditView, ProfileDeleteView
+    ProfileDetailsView, ProfileEditView, ProfileDeleteView, CreateProfilePictureView, ChangeProfilePictureView, \
+    DeleteProfilePictureView
 
 urlpatterns = (
     path('register/', UserRegisterView.as_view(), name='register user'),
@@ -13,6 +14,10 @@ urlpatterns = (
     path('profile/<int:pk>/', ProfileDetailsView.as_view(), name='profile details'),
     path('profile/edit/<int:pk>/', ProfileEditView.as_view(), name='profile edit'),
     path('profile/delete/<int:pk>/', ProfileDeleteView.as_view(), name='profile delete'),
+
+    path('profile_picture/add/', CreateProfilePictureView.as_view(), name='profile picture create'),
+    path('profile_picture/edit/<int:pk>', ChangeProfilePictureView.as_view(), name='profile picture change'),
+    path('profile_picture/delete/<int:pk>', DeleteProfilePictureView.as_view(), name='profile picture delete'),
 
     path('password_change/<int:pk>/', ChangeUserPasswordView.as_view(), name='password change'),
     path('password_change_done/', views.TemplateView.as_view(template_name='auth_app/password_change_done.html'),

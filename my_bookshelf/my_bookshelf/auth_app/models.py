@@ -1,3 +1,4 @@
+from cloudinary import models as cloudinary_models
 from django.contrib.auth import models as auth_models
 from django.db import models
 
@@ -62,3 +63,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+class ProfilePicture(models.Model):
+    picture = cloudinary_models.CloudinaryField('image')
+
+    user = models.OneToOneField(
+        MyBookshelfUser,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
