@@ -1,3 +1,4 @@
+from cloudinary import models as cloudinary_models
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -99,3 +100,13 @@ class Bookshelf(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BookCover(models.Model):
+    cover = cloudinary_models.CloudinaryField('image')
+
+    user = models.OneToOneField(
+        Book,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
