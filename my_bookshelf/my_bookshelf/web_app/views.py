@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth import mixins as auth_mixins
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -20,6 +22,7 @@ class HomeView(views.TemplateView):
 class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
+    queryset = Book.objects.all().filter(date_added__gte=datetime.now()-timedelta(days=7))
 
 
 class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
@@ -41,6 +44,11 @@ class BookDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     model = Book
     template_name = 'web_app/book_details.html'
     context_object_name = 'book'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['owner'] = Profile.objects.get(user_id=self.object.user.id)
+        return context
 
 
 class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
@@ -86,7 +94,8 @@ class BookshelfDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_list'] = self.object.books.all()
+        context['books_list'] = self.object.books.all().order_by('title')
+        context['owner'] = Profile.objects.get(user_id=self.object.user.id)
         return context
 
 
@@ -116,7 +125,7 @@ class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = 'web_app/my_books.html'
 
     def get_queryset(self):
-        return Book.objects.all().filter(user_id=self.request.user.id)
+        return Book.objects.all().filter(user_id=self.request.user.id).order_by('-date_added')
 
 
 class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
@@ -124,19 +133,22 @@ class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     template_name = 'web_app/my_bookshelves.html'
 
     def get_queryset(self):
-        return Bookshelf.objects.all().filter(user_id=self.request.user.id)
+        return Bookshelf.objects.all().filter(user_id=self.request.user.id).order_by('title')
 
 
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'web_app/profiles_list.html'
+    queryset = Profile.objects.all().order_by('first_name', 'last_name')
 
 
 class BooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
+    queryset = Book.objects.all().order_by('title')
 
 
 class BookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
+    queryset = Bookshelf.objects.all().order_by('title')
