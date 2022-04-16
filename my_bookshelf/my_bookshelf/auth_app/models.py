@@ -68,6 +68,10 @@ class Profile(models.Model):
 class ProfilePicture(models.Model):
     picture = cloudinary_models.CloudinaryField('image')
 
+    date_added = models.DateTimeField(
+        auto_now_add=True,
+    )
+
     user = models.OneToOneField(
         MyBookshelfUser,
         on_delete=models.CASCADE,

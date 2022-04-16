@@ -57,6 +57,8 @@ class Book(models.Model):
         auto_now_add=True,
     )
 
+    cover = cloudinary_models.CloudinaryField('image')
+
     summary = models.TextField(
         null=True,
         blank=True,
@@ -101,12 +103,12 @@ class Bookshelf(models.Model):
     def __str__(self):
         return self.title
 
+#
+# class BookCover(models.Model):
+#     book_cover = cloudinary_models.CloudinaryField('image')
 
-class BookCover(models.Model):
-    cover = cloudinary_models.CloudinaryField('image')
-
-    user = models.OneToOneField(
-        Book,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
+    # book = models.OneToOneField(
+    #     Book,
+    #     on_delete=models.CASCADE,
+    #     primary_key=True,
+    # )
