@@ -3,7 +3,7 @@
 {% block page_content %}
     <div class="container py-5">
         <h1>Add Book</h1>
-        <form method="post" action="{% url 'book add' %}">
+        <form method="post" action="{% url 'book add' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="text-center">

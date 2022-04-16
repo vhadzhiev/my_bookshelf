@@ -4,11 +4,9 @@
         <h1>Book details</h1>
         <hr>
         <div>
-            {% if book.cover %}
-                <h5>{{ book.cover }}</h5>
-            {% else %}
-                <p>You can add book cover by editing your book.</p>
-            {% endif %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{ book.cover.url }}" class="card-img-top" alt="You can add book cover by editing your book.">
+            </div>
             <h5>Title: {{ book.title }}</h5>
             <h5>Author: {{ book.author }}</h5>
             <h5>ISBN: {{ book.isbn }}</h5>
