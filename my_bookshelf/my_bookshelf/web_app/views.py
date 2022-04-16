@@ -1,3 +1,4 @@
+from django.contrib.auth import mixins as auth_mixins
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -16,12 +17,12 @@ class HomeView(views.TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class DashboardView(views.ListView):
+class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
 
 
-class CreateBookView(views.CreateView):
+class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookForm
     template_name = 'web_app/book_add.html'
     success_url = reverse_lazy('dashboard')
@@ -36,13 +37,13 @@ class CreateBookView(views.CreateView):
         return super().form_valid(form)
 
 
-class BookDetailsView(views.DetailView):
+class BookDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     model = Book
     template_name = 'web_app/book_details.html'
     context_object_name = 'book'
 
 
-class EditBookView(views.UpdateView):
+class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     form_class = EditBookForm
     model = Book
     template_name = 'web_app/book_edit.html'
@@ -57,13 +58,13 @@ class EditBookView(views.UpdateView):
         return reverse_lazy('book details', kwargs={'pk': self.object.id})
 
 
-class DeleteBookView(views.DeleteView):
+class DeleteBookView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Book
     template_name = 'web_app/book_delete.html'
     success_url = reverse_lazy('home')
 
 
-class CreateBookshelfView(views.CreateView):
+class CreateBookshelfView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookshelfForm
     template_name = 'web_app/bookshelf_add.html'
     success_url = reverse_lazy('dashboard')
@@ -78,7 +79,7 @@ class CreateBookshelfView(views.CreateView):
         return super().form_valid(form)
 
 
-class BookshelfDetailsView(views.DetailView):
+class BookshelfDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_details.html'
     context_object_name = 'bookshelf'
@@ -89,7 +90,7 @@ class BookshelfDetailsView(views.DetailView):
         return context
 
 
-class EditBookshelfView(views.UpdateView):
+class EditBookshelfView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     form_class = EditBookshelfForm
     model = Bookshelf
     template_name = 'web_app/bookshelf_edit.html'
@@ -104,13 +105,13 @@ class EditBookshelfView(views.UpdateView):
         return reverse_lazy('bookshelf details', kwargs={'pk': self.object.id})
 
 
-class DeleteBookshelfView(views.DeleteView):
+class DeleteBookshelfView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_delete.html'
     success_url = reverse_lazy('home')
 
 
-class MyBooksListView(views.ListView):
+class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/my_books.html'
 
@@ -118,7 +119,7 @@ class MyBooksListView(views.ListView):
         return Book.objects.all().filter(user_id=self.request.user.id)
 
 
-class MyBookshelvesListView(views.ListView):
+class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/my_bookshelves.html'
 
@@ -126,16 +127,16 @@ class MyBookshelvesListView(views.ListView):
         return Bookshelf.objects.all().filter(user_id=self.request.user.id)
 
 
-class ProfilesListView(views.ListView):
+class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'web_app/profiles_list.html'
 
 
-class BooksListView(views.ListView):
+class BooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
 
 
-class BookshelvesListView(views.ListView):
+class BookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'

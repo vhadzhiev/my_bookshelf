@@ -1,3 +1,4 @@
+from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
@@ -35,11 +36,11 @@ class UserLoginView(auth_views.LoginView):
         return super().get_success_url()
 
 
-class UserLogoutView(auth_views.LogoutView):
+class UserLogoutView(auth_mixins.LoginRequiredMixin, auth_views.LogoutView):
     template_name = 'auth_app/logout.html'
 
 
-class ChangeUserPasswordView(auth_views.PasswordChangeView):
+class ChangeUserPasswordView(auth_mixins.LoginRequiredMixin, auth_views.PasswordChangeView):
     template_name = 'auth_app/password_change.html'
     success_url = reverse_lazy('password change done')
 
@@ -60,7 +61,7 @@ class ResetUserPasswordCompleteView(auth_views.PasswordResetCompleteView):
     template_name = 'auth_app/password_reset_complete.html'
 
 
-class ProfileDetailsView(views.DetailView):
+class ProfileDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'auth_app/profile_details.html'
     context_object_name = 'profile'
@@ -73,7 +74,7 @@ class ProfileDetailsView(views.DetailView):
         return context
 
 
-class ProfileEditView(views.UpdateView):
+class ProfileEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'auth_app/profile_edit.html'
     fields = ('first_name', 'last_name', 'date_of_birth', 'bio')
@@ -82,7 +83,7 @@ class ProfileEditView(views.UpdateView):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
 
 
-class ProfileDeleteView(views.DeleteView):
+class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = MyBookshelfUser
     template_name = 'auth_app/profile_delete.html'
     success_url = reverse_lazy('home')
@@ -98,7 +99,7 @@ class ProfileDeleteView(views.DeleteView):
         return redirect('home')
 
 
-class CreateProfilePictureView(views.CreateView):
+class CreateProfilePictureView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_add.html'
     fields = ('picture',)
@@ -111,7 +112,7 @@ class CreateProfilePictureView(views.CreateView):
         return super().form_valid(form)
 
 
-class ChangeProfilePictureView(views.UpdateView):
+class ChangeProfilePictureView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_change.html'
     fields = ('picture',)
@@ -120,7 +121,7 @@ class ChangeProfilePictureView(views.UpdateView):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
 
 
-class DeleteProfilePictureView(views.DeleteView):
+class DeleteProfilePictureView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_delete.html'
 
