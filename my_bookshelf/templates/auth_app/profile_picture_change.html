@@ -3,7 +3,7 @@
 {% block page_content %}
     <div class="container py-5">
         <h1>Change Profile Picture</h1>
-        <form method="post" action="{% url 'profile picture change' request.user.id %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'profile picture change' picture.user_id %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="text-center">

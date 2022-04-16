@@ -116,6 +116,7 @@ class ChangeProfilePictureView(auth_mixins.LoginRequiredMixin, views.UpdateView)
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_change.html'
     fields = ('picture',)
+    context_object_name = 'picture'
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
@@ -124,6 +125,7 @@ class ChangeProfilePictureView(auth_mixins.LoginRequiredMixin, views.UpdateView)
 class DeleteProfilePictureView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_delete.html'
+    context_object_name = 'picture'
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})

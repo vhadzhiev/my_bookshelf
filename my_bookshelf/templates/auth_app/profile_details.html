@@ -7,9 +7,9 @@
             <div class="card" style="width: 18rem;">
                 <img src="{{ profile_picture.picture.url }}" class="card-img-top" alt="No profile pic">
             </div>
-            <a href="{% url 'profile picture change' request.user.id %}" class="badge badge-warning">Change Profile
+            <a href="{% url 'profile picture change' profile_picture.user_id %}" class="badge badge-warning">Change Profile
                 Picture</a>
-            <a href="{% url 'profile picture delete' request.user.id %}" class="badge badge-danger">Delete Profile
+            <a href="{% url 'profile picture delete' profile_picture.user_id %}" class="badge badge-danger">Delete Profile
                 Picture</a>
         {% else %}
             <a href="{% url 'profile picture create' %}" class="badge badge-success">Add Profile Picture</a>
@@ -26,9 +26,9 @@
             {% endif %}
             {% if profile.user_id == request.user.id %}
                 <div class="text-center">
-                    <a class="btn btn-success" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
-                    <a class="btn btn-danger" href="{% url 'profile delete' request.user.id %}">Delete Profile</a>
-                    <a class="btn btn-warning" href="{% url 'password change' request.user.id %}">Change Password</a>
+                    <a class="btn btn-success" href="{% url 'profile edit' profile.user_id %}">Edit Profile</a>
+                    <a class="btn btn-danger" href="{% url 'profile delete' profile.user_id %}">Delete Profile</a>
+                    <a class="btn btn-warning" href="{% url 'password change' profile.user_id %}">Change Password</a>
                 </div>
             {% endif %}
         </div>
