@@ -4,17 +4,23 @@
         <h1>Book details</h1>
         <hr>
         <div>
-            <p class="img"><img src="{{ book.image_url }}" alt="add book cover"></p>
+            {% if book.cover %}
+                <h5>{{ book.cover }}</h5>
+            {% else %}
+                <p>You can add book cover by editing your book.</p>
+            {% endif %}
             <h5>Title: {{ book.title }}</h5>
             <h5>Author: {{ book.author }}</h5>
             <h5>ISBN: {{ book.isbn }}</h5>
             <h5>Genre: {{ book.genre }}</h5>
-            <h5>Description: {{ book.summary }}</h5>
+            {% if book.summary %}
+                <h5>Summary: {{ book.summary }}</h5>
+            {% endif %}
             {% if book.user_id == request.user.id %}
-            <div class="text-center">
-                <a class="btn btn-success" href="{% url 'book edit' book.id %}">Edit Book</a>
-                <a class="btn btn-danger" href="{% url 'book delete' book.id %}">Delete Book</a>
-            </div>
+                <div class="text-center">
+                    <a class="btn btn-success" href="{% url 'book edit' book.id %}">Edit Book</a>
+                    <a class="btn btn-danger" href="{% url 'book delete' book.id %}">Delete Book</a>
+                </div>
             {% endif %}
         </div>
     </div>

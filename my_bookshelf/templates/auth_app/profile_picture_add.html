@@ -3,6 +3,7 @@
 {% block page_content %}
     <div class="container py-5">
         <h1>Add Profile Picture</h1>
+        <hr>
         <form method="post" action="{% url 'profile picture create' %}" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
