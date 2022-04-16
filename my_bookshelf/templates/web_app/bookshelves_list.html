@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
-        <h1>Bookshelves List</h1>
-        <hr>
-        {% if object_list %}
-            <ul>
-                {% for bookshelf in object_list %}
-                    <li>
-                        <a href="{% url 'bookshelf details' bookshelf.id %}">{{ bookshelf.title }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <h1>No bookshelves added to My Bookshelf yet.</h1>
-        {% endif %}
-    </div>
+    <h1>Bookshelves List</h1>
+    <hr>
+    {% if object_list %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Total books in bookshelf</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for bookshelf in object_list %}
+                <tr>
+                    <td><a href="{% url 'bookshelf details' bookshelf.id %}">{{ bookshelf.title }}</a></td>
+                    <td>{{ bookshelf.books.count }}</td>
+                    <td>{{ bookshelf.description|truncatechars:50 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h1>No bookshelves added to My Bookshelf yet.</h1>
+    {% endif %}
 {% endblock %}

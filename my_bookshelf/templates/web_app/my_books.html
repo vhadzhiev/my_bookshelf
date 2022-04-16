@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
-        <h1>My Books</h1>
-        <hr>
-        {% if object_list %}
-            <ul>
-                {% for book in object_list %}
-                    <li>
-                        <a href="{% url 'book details' book.id %}">{{ book.title }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <h1>You have not added any books yet.</h1>
-        {% endif %}
-    </div>
+    <h1>My Books</h1>
+    <hr>
+    {% if object_list %}
+        <div class="card-columns">
+            {% for book in object_list %}
+                <div class="card">
+                    <img class="card-img-top" src="{{ book.cover.url }}" alt="No book cover.">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        {% if book.summary %}
+                            <p class="card-text">{{ book.summary|truncatechars:100 }}</p>
+                        {% endif %}
+                        <p><a href="{% url 'book details' book.id %}" class="badge badge-success">Book
+                            details</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>You have not added any books yet.</h1>
+    {% endif %}
 {% endblock %}

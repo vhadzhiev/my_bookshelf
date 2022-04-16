@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
         <h1>Book details</h1>
         <hr>
         <div>
@@ -11,6 +10,7 @@
             <h5>Author: {{ book.author }}</h5>
             <h5>ISBN: {{ book.isbn }}</h5>
             <h5>Genre: {{ book.genre }}</h5>
+            <h5>Owner: {{ owner }}</h5>
             {% if book.summary %}
                 <h5>Summary: {{ book.summary }}</h5>
             {% endif %}
@@ -21,5 +21,4 @@
                 </div>
             {% endif %}
         </div>
-    </div>
 {% endblock %}

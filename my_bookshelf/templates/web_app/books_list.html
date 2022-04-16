@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
-        <h1>Books List</h1>
-        <hr>
-        {% if object_list %}
-            <ul>
-                {% for book in object_list %}
-                    <li>
-                        <a href="{% url 'book details' book.id %}">{{ book.title }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <h1>No books added to My Bookshelf yet.</h1>
-        {% endif %}
-    </div>
+    <h1>Books List</h1>
+    <hr>
+    {% if object_list %}
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Summary</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in object_list %}
+                <tr>
+                    <td><a href="{% url 'book details' book.id %}">{{ book.title }}</a></td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.summary|truncatechars:50 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h1>No books added to My Bookshelf yet.</h1>
+    {% endif %}
 {% endblock %}

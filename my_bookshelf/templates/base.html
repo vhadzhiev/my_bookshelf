@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">My Bookshelf</a>
+    <a class="navbar-brand">My Bookshelf</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -59,12 +59,10 @@
         </ul>
     </div>
 </nav>
-{% block page_content %}
-{% endblock %}
-
-<footer class="fixed-bottom card-footer">
-    <div> © 2022 Vasil Hadzhiev for Python Web Framework at SoftUni</div>
-</footer>
+<div class="container py-5">
+    {% block page_content %}
+    {% endblock %}
+</div>
 </body>
 <!-- Optional JavaScript; choose one of the two! -->
 

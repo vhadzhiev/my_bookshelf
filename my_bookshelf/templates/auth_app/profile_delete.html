@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_filters %}
 {% block page_content %}
-    <div class="container py-5">
         <h1>Are you sure you want to delete your profile?</h1>
         <hr>
         <form action="{% url 'profile delete' request.user.id %}" method="post">
@@ -9,5 +8,4 @@
             {{ form|crispy }}
             <button class="btn btn-danger" type="submit">Delete</button>
         </form>
-    </div>
 {% endblock %}

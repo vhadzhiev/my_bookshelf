@@ -1,26 +1,41 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
-        <h1>Bookshelf details</h1>
-        <hr>
-        <div>
-            <h5>Title: {{ bookshelf.title }}</h5>
+    <h1>Bookshelf details</h1>
+    <hr>
+    <div>
+        <h5>Title: {{ bookshelf.title }}</h5>
+        <h5>Owner: {{ owner }}</h5>
+        {% if bookshelf.description %}
             <h5>Description: {{ bookshelf.description }}</h5>
-            {% if bookshelf.user_id == request.user.id %}
-                <div class="text-center">
-                    <a class="btn btn-success" href="{% url 'bookshelf edit' bookshelf.id %}">Edit Bookshelf</a>
-                    <a class="btn btn-danger" href="{% url 'bookshelf delete' bookshelf.id %}">Delete Bookshelf</a>
-                </div>
-            {% endif %}
-        </div>
-        <div>
-            <ul>
-                {% for book in books_list %}
-                    <li>
-                        <a href="{% url 'book details' book.id %}">{{ book.title }}</a> {{ book.author }}
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% endif %}
+        <br>
+        {% if bookshelf.user_id == request.user.id %}
+            <div class="text-center">
+                <a class="btn btn-success" href="{% url 'bookshelf edit' bookshelf.id %}">Edit Bookshelf</a>
+                <a class="btn btn-danger" href="{% url 'bookshelf delete' bookshelf.id %}">Delete Bookshelf</a>
+            </div>
+        {% endif %}
     </div>
+    <br>
+    {% if books_list %}
+        <h1 class="text-center">The books in this bookshelf are:</h1>
+        <br>
+        <div class="card-columns">
+        {% for book in books_list %}
+            <div class="card">
+                <img class="card-img-top" src="{{ book.cover.url }}" alt="No book cover.">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    {% if book.summary %}
+                        <p class="card-text">{{ book.summary|truncatechars:100 }}</p>
+                    {% endif %}
+                    <p><a href="{% url 'book details' book.id %}" class="badge badge-success">Book
+                        details</a></p>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>This bookshelf is empty.</h1>
+    {% endif %}
+</div>
 {% endblock %}

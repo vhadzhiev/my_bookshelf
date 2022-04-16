@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="container py-5">
-        <h1>Profiles List</h1>
-        <hr>
-        <ul>
-            {% for profile in object_list %}
-                <li>
-                    <a href="{% url 'profile details' profile.user_id %}">{{ profile.full_name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    <h1>Profiles List</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Full name</th>
+            <th scope="col">e-mail</th>
+            <th scope="col">Bio</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for profile in object_list %}
+            <tr>
+                <td><a href="{% url 'profile details' profile.user_id %}">{{ profile.full_name }}</a></td>
+                <td>{{ profile.user }}</td>
+                <td>{{ profile.bio|truncatechars:50 }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

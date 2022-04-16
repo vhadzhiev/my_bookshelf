@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_filters %}
 {% block page_content %}
-    <div class="container py-5">
         <h1>Add Book</h1>
         <form method="post" action="{% url 'book add' %}" enctype="multipart/form-data">
             {% csrf_token %}
@@ -10,5 +9,4 @@
                 <button class="btn btn-success" type="submit">Add</button>
             </div>
         </form>
-    </div>
 {% endblock %}

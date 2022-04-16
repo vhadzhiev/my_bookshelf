@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load crispy_forms_filters %}
 {% block page_content %}
-    <div class="container py-5">
         <h1>Register</h1>
         <form method="post" action="{% url 'register user' %}">
             {% csrf_token %}
@@ -11,6 +10,5 @@
             </div>
         </form>
         <p class="text-center">If you already have an account, <a href="{% url 'login user' %}">login</a> instead.</p>
-    </div>
 {% endblock %}
 

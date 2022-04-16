@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block page_content %}
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'register user' %}">Register</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{% url 'login user' %}">Login</a>
-    </li>
+    <div class="jumbotron">
+        <img width="100%" src="{% static 'books-2383396.jpg' %}" alt="">
+        <div class="position-sticky">
+            <h1 class="display-4 text-center">Welcome to My Bookshelf!</h1>
+            <p class="text-center">Create your personal online library now. Add your books and create different
+                bookshelves to show and keep track of the books you own.</p>
+            <div class="text-center">
+                <a class="btn btn-success btn-lg" href="{% url 'register user' %}" role="button">Register</a>
+                <a class="btn btn-success btn-lg" href="{% url 'login user' %}" role="button">Login</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
