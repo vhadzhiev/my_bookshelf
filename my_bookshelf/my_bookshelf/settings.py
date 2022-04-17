@@ -80,12 +80,14 @@ DATABASES = {
 }
 
 DEFAULT_CACHE_CONFIG = {
-    'BACKEND':
-        'django.core.cache.backends.dummy.DummyCache'
-        if DEBUG
-        else 'django.core.cache.backends.redis.RedisCache',
-    'LOCATION': os.getenv('REDIS_TO_GO_LOCATION'),
+    'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
 }
+
+if is_production():
+    DEFAULT_CACHE_CONFIG = {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': os.getenv('REDIS_TO_GO_LOCATION'),
+    }
 
 CACHES = {
     'default': DEFAULT_CACHE_CONFIG,
