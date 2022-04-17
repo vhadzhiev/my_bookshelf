@@ -7,7 +7,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookForm, CreateBookshelfForm, EditBookshelfForm, EditBookForm
-from my_bookshelf.web_app.models import Book, Bookshelf
+from my_bookshelf.web_app.models import Book, Bookshelf, BookCover
 
 
 class HomeView(views.TemplateView):
@@ -22,7 +22,7 @@ class HomeView(views.TemplateView):
 class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
-    queryset = Book.objects.all().filter(date_added__gte=datetime.now()-timedelta(days=7))
+    queryset = Book.objects.all().filter(date_added__gte=datetime.now() - timedelta(days=7))
 
 
 class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
@@ -48,6 +48,8 @@ class BookDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
+        self.request.session['book_id'] = self.object.id
+        context['book_cover'] = BookCover.objects.all().filter(book_id=self.object.id).last()
         return context
 
 
@@ -152,3 +154,37 @@ class BookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
     queryset = Bookshelf.objects.all().order_by('title')
+
+
+class CreateBookCoverView(auth_mixins.LoginRequiredMixin, views.CreateView):
+    model = BookCover
+    template_name = 'web_app/book_cover_add.html'
+    fields = ('image',)
+
+    def get_success_url(self):
+        book_id = self.request.session['book_id']
+        return reverse_lazy('book details', kwargs={'pk': book_id})
+
+    def form_valid(self, form):
+        book_id = self.request.session['book_id']
+        form.instance.book = Book.objects.get(id=book_id)
+        return super().form_valid(form)
+
+
+class ChangeBookCoverView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+    model = BookCover
+    template_name = 'web_app/book_cover_change.html'
+    fields = ('image',)
+
+    def get_success_url(self):
+        book_id = self.request.session['book_id']
+        return reverse_lazy('book details', kwargs={'pk': book_id})
+
+
+class DeleteBookCoverView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+    model = BookCover
+    template_name = 'web_app/book_cover_delete.html'
+
+    def get_success_url(self):
+        book_id = self.request.session['book_id']
+        return reverse_lazy('book details', kwargs={'pk': book_id})

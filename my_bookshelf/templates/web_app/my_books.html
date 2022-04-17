@@ -6,7 +6,7 @@
         <div class="card-columns">
             {% for book in object_list %}
                 <div class="card">
-                    <img class="card-img-top" src="{{ book.cover.url }}" alt="No book cover.">
+                    <img class="card-img-top" src="{{ book.bookcover.image.url }}" alt="No book cover.">
                     <div class="card-body">
                         <h5 class="card-title">{{ book.title }}</h5>
                         {% if book.summary %}
