@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-
+from django.utils import timezone
 from django.contrib.auth import mixins as auth_mixins
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -23,7 +22,7 @@ class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
     queryset = Book.objects.all() \
-                   .filter(date_added__gte=datetime.now() - timedelta(days=7)) \
+                   .filter(date_added__gte=timezone.now() - timezone.timedelta(days=7)) \
                    .order_by('-date_added')[:10]
 
 
@@ -132,6 +131,7 @@ class DeleteBookshelfView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/my_books.html'
+    paginate_by = 10
 
     def get_queryset(self):
         return Book.objects.all().filter(user_id=self.request.user.id).order_by('-date_added')
@@ -140,6 +140,7 @@ class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
 class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/my_bookshelves.html'
+    paginate_by = 10
 
     def get_queryset(self):
         return Bookshelf.objects.all().filter(user_id=self.request.user.id).order_by('title')
@@ -149,18 +150,21 @@ class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'web_app/profiles_list.html'
     queryset = Profile.objects.all().order_by('first_name', 'last_name')
+    paginate_by = 10
 
 
 class BooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
     queryset = Book.objects.all().order_by('title')
+    paginate_by = 10
 
 
 class BookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
     queryset = Bookshelf.objects.all().order_by('title')
+    paginate_by = 10
 
 
 class CreateBookCoverView(auth_mixins.LoginRequiredMixin, views.CreateView):
@@ -195,3 +199,6 @@ class DeleteBookCoverView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     def get_success_url(self):
         book_id = self.request.session['book_id']
         return reverse_lazy('book details', kwargs={'pk': book_id})
+
+# TODO add cache to ListViews
+# TODO split views in separate files

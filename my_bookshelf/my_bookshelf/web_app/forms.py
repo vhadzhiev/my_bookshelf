@@ -110,3 +110,5 @@ class EditBookshelfForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False,
     )
+
+# TODO add placeholders, help text, labels to forms

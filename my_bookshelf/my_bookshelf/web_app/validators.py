@@ -13,3 +13,5 @@ def validate_only_digits(value):
 def validate_correct_length(value):
     if len(value) != 10 and len(value) != 13:
         raise ValidationError(VALIDATE_CORRECT_LENGTH_EXCEPTION_MESSAGE)
+
+# TODO add max file size validator

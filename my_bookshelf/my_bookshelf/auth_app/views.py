@@ -92,7 +92,7 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = MyBookshelfUser
     template_name = 'auth_app/profile_delete.html'
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # TODO implement signals
         user = self.object
         user.is_active = False
         user.save()
