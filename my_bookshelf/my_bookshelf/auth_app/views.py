@@ -70,7 +70,12 @@ class ProfileDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
         context = super().get_context_data(**kwargs)
         context['books_count'] = len(Book.objects.all().filter(user_id=self.object.user_id))
         context['bookshelves_count'] = len(Bookshelf.objects.all().filter(user_id=self.object.user_id))
-        context['profile_picture'] = ProfilePicture.objects.all().filter(user_id=self.object.user_id).last()
+
+        try:
+            context['profile_picture'] = ProfilePicture.objects.all().filter(user_id=self.object.user_id).last()
+        except ProfilePicture.DoesNotExist:
+            context['profile_picture'] = None
+
         return context
 
 
@@ -86,14 +91,13 @@ class ProfileEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
 class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = MyBookshelfUser
     template_name = 'auth_app/profile_delete.html'
-    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         user = self.object
         user.is_active = False
         user.save()
         Profile.objects.get(pk=user.id).delete()
-        ProfilePicture.objects.all().filter(user_id=self.object.user_id).last().delete()
+        ProfilePicture.objects.all().filter(user_id=self.object.id).delete()
         Book.objects.filter(user_id=user.id).delete()
         Bookshelf.objects.filter(user_id=user.id).delete()
         return redirect('home')

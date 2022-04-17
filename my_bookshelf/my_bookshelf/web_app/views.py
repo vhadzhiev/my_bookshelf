@@ -22,13 +22,15 @@ class HomeView(views.TemplateView):
 class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
-    queryset = Book.objects.all().filter(date_added__gte=datetime.now() - timedelta(days=7))
+    queryset = Book.objects.all() \
+                   .filter(date_added__gte=datetime.now() - timedelta(days=7)) \
+                   .order_by('-date_added')[:10]
 
 
 class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookForm
     template_name = 'web_app/book_add.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('my books')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -49,7 +51,12 @@ class BookDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
         context = super().get_context_data(**kwargs)
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
         self.request.session['book_id'] = self.object.id
-        context['book_cover'] = BookCover.objects.all().filter(book_id=self.object.id).last()
+
+        try:
+            context['book_cover'] = BookCover.objects.all().get(book_id=self.object.id)
+        except BookCover.DoesNotExist:
+            context['book_cover'] = None
+
         return context
 
 
@@ -71,13 +78,13 @@ class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
 class DeleteBookView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Book
     template_name = 'web_app/book_delete.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('my books')
 
 
 class CreateBookshelfView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookshelfForm
     template_name = 'web_app/bookshelf_add.html'
-    success_url = reverse_lazy('dashboard')
+    success_url = reverse_lazy('my bookshelves')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -119,7 +126,7 @@ class EditBookshelfView(auth_mixins.LoginRequiredMixin, views.UpdateView):
 class DeleteBookshelfView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_delete.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('my bookshelves')
 
 
 class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
