@@ -29,7 +29,7 @@
                     <a class="nav-link" href="{% url 'book add' %}">Add book</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'bookshelf add' %}">Add bookshelf</a>
+                    <a class="nav-link" href="{% url 'bookshelf add' %}">Create bookshelf</a>
                 </li>
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -45,11 +45,10 @@
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                        data-toggle="dropdown" aria-expanded="false">
-                        My Profile
+                        {{ request.user.profile }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'profile details' request.user.id %}">Profile</a>
-                        <a class="dropdown-item" href="{% url 'profile edit' request.user.id %}">Edit Profile</a>
+                        <a class="dropdown-item" href="{% url 'profile details' request.user.id %}">My Profile</a>
                         <a class="dropdown-item" href="{% url 'my books' %}">My Books</a>
                         <a class="dropdown-item" href="{% url 'my bookshelves' %}">My Bookshelves</a>
                         <a class="dropdown-item" href="{% url 'logout user' %}">Logout</a>
