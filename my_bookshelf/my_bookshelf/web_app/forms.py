@@ -2,8 +2,8 @@ from django import forms
 
 from my_bookshelf.web_app.models import Book, Bookshelf
 
-BOOK_ISBN_ERROR_MSG = 'Book with this ISBN already exists for this user.'
-BOOKSHELF_TITLE_ERROR_MSG = 'Bookshelf with this title already exists for this user.'
+BOOK_ISBN_ERROR_MESSAGE = 'Book with this ISBN already exists for this user.'
+BOOKSHELF_TITLE_ERROR_MESSAGE = 'Bookshelf with this title already exists for this user.'
 
 
 class CreateBookForm(forms.ModelForm):
@@ -18,7 +18,7 @@ class CreateBookForm(forms.ModelForm):
         except Book.DoesNotExist:
             pass
         else:
-            self.add_error('isbn', BOOK_ISBN_ERROR_MSG)
+            self.add_error('isbn', BOOK_ISBN_ERROR_MESSAGE)
         return cleaned_data
 
     class Meta:
@@ -43,7 +43,7 @@ class EditBookForm(forms.ModelForm):
             except Book.DoesNotExist:
                 pass
             else:
-                self.add_error('isbn', BOOK_ISBN_ERROR_MSG)
+                self.add_error('isbn', BOOK_ISBN_ERROR_MESSAGE)
         return cleaned_data
 
     class Meta:
@@ -65,7 +65,7 @@ class CreateBookshelfForm(forms.ModelForm):
         except Bookshelf.DoesNotExist:
             pass
         else:
-            self.add_error('title', BOOKSHELF_TITLE_ERROR_MSG)
+            self.add_error('title', BOOKSHELF_TITLE_ERROR_MESSAGE)
         return cleaned_data
 
     class Meta:
@@ -98,7 +98,7 @@ class EditBookshelfForm(forms.ModelForm):
             except Bookshelf.DoesNotExist:
                 pass
             else:
-                self.add_error('title', BOOKSHELF_TITLE_ERROR_MSG)
+                self.add_error('title', BOOKSHELF_TITLE_ERROR_MESSAGE)
         return cleaned_data
 
     class Meta:

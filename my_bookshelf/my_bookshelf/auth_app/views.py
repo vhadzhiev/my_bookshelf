@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from my_bookshelf.auth_app.forms import UserRegisterForm
+from my_bookshelf.auth_app.forms import UserRegisterForm, EditProfileForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser, ProfilePicture
 from my_bookshelf.web_app.models import Book, Bookshelf
 
@@ -80,9 +80,9 @@ class ProfileDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
 
 
 class ProfileEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+    form_class = EditProfileForm
     model = Profile
     template_name = 'auth_app/profile_edit.html'
-    fields = ('first_name', 'last_name', 'date_of_birth', 'bio')
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
@@ -92,7 +92,7 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = MyBookshelfUser
     template_name = 'auth_app/profile_delete.html'
 
-    def form_valid(self, form):  # TODO implement signals
+    def form_valid(self, form):
         user = self.object
         user.is_active = False
         user.save()
