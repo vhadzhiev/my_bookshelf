@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 from my_bookshelf.web_app.models import Book, Bookshelf
 
-BOOK_ISBN_EXCEPTION_MESSAGE = 'You have already added a ook with this ISBN.'
+BOOK_ISBN_EXCEPTION_MESSAGE = 'You have already added a book with this ISBN.'
 BOOKSHELF_TITLE_EXCEPTION_MESSAGE = 'You have already created a bookshelf with this title.'
 
 

@@ -7,7 +7,7 @@ from my_bookshelf.web_app.models import Book, Bookshelf, BookCover
 class BookAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'isbn', 'genre', 'date_added', 'user')
     ordering = ('id', 'title', 'author', 'date_added', 'isbn', 'genre', 'user')
-    readonly_fields = ('user',)
+    readonly_fields = ('user', 'isbn')
     list_filter = ('genre', 'date_added')
 
 
@@ -15,7 +15,7 @@ class BookAdmin(admin.ModelAdmin):
 class BookshelfAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'date_added', 'user')
     ordering = ('id', 'title', 'date_added', 'user')
-    readonly_fields = ('user',)
+    readonly_fields = ('user', 'title')
     list_filter = ('date_added',)
 
 

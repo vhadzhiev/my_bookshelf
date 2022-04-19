@@ -21,7 +21,7 @@ class HomeView(views.TemplateView):
 class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
-    queryset = Book.objects.filter(date_added__gte=timezone.now() - timezone.timedelta(days=7))\
+    queryset = Book.objects.filter(date_added__gte=timezone.now() - timezone.timedelta(days=7)) \
                    .order_by('-date_added')[:10]
 
 
@@ -203,3 +203,5 @@ class DeleteBookCoverView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 # TODO split views in separate files
 # TODO add search bar
 # TODO add sorting in ListViews
+# TODO add logging
+# TODO add 404 and others
