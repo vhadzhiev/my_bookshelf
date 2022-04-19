@@ -1,3 +1,5 @@
+from datetime import date
+
 from cloudinary import models as cloudinary_models
 from django.contrib.auth import models as auth_models
 from django.db import models
@@ -60,6 +62,12 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True,
     )
+
+    @property
+    def age(self):
+        today = date.today()
+        return today.year - self.date_of_birth.year - (
+                    (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
 
     @property
     def full_name(self):
