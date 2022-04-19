@@ -6,6 +6,7 @@ from django.core import validators
 from django.db import models
 
 from my_bookshelf.auth_app.managers import MyBookshelfUsersManager
+from my_bookshelf.auth_app.validators import validate_date_of_birth
 from my_bookshelf.common.validators import validate_image_max_size_in_mb
 
 
@@ -52,6 +53,9 @@ class Profile(models.Model):
     date_of_birth = models.DateField(
         blank=True,
         null=True,
+        validators=(
+            validate_date_of_birth,
+        ),
     )
 
     bio = models.TextField(
