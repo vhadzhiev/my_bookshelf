@@ -111,3 +111,4 @@ class EditBookshelfForm(forms.ModelForm):
     )
 
 # TODO add placeholders, help text, labels to forms
+# TODO move validation in models

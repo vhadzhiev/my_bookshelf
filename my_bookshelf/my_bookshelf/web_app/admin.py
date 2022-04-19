@@ -1,17 +1,27 @@
 from django.contrib import admin
 
-from my_bookshelf.web_app.models import Book, Bookshelf
+from my_bookshelf.web_app.models import Book, Bookshelf, BookCover
 
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'isbn', 'genre', 'date_added', 'user')
-    ordering = ('title', 'author', 'date_added', 'user')
-    list_filter = ('genre', 'user')
+    list_display = ('id', 'title', 'author', 'isbn', 'genre', 'date_added', 'user')
+    ordering = ('id', 'title', 'author', 'date_added', 'isbn', 'genre', 'user')
+    readonly_fields = ('user',)
+    list_filter = ('genre', 'date_added')
 
 
 @admin.register(Bookshelf)
 class BookshelfAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date_added', 'user')
-    ordering = ('title', 'date_added', 'user')
-    list_filter = ('user',)
+    list_display = ('id', 'title', 'date_added', 'user')
+    ordering = ('id', 'title', 'date_added', 'user')
+    readonly_fields = ('user',)
+    list_filter = ('date_added',)
+
+
+@admin.register(BookCover)
+class BookCoverAdmin(admin.ModelAdmin):
+    list_display = ('book_id', 'book', 'image', 'date_added')
+    ordering = ('book_id', 'book', 'date_added')
+    list_filter = ('date_added',)
+    list_display_links = ('image',)

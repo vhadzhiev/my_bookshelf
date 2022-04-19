@@ -6,8 +6,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from my_bookshelf.auth_app.forms import UserRegisterForm, EditProfileForm, CreateProfilePictureForm, \
-    ChangeProfilePictureForm
+from my_bookshelf.auth_app.forms import UserRegisterForm, EditProfileForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser, ProfilePicture
 from my_bookshelf.web_app.models import Book, Bookshelf
 
