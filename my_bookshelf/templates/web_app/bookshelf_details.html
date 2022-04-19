@@ -4,7 +4,7 @@
     <hr>
     <div>
         <h5>Title: {{ bookshelf.title }}</h5>
-        <h5>Owner: {{ owner }}</h5>
+        <h5>Owner: <a href="{% url 'profile details' bookshelf.user_id%}">{{ owner }}</a></h5>
         {% if bookshelf.description %}
             <h5>Description: {{ bookshelf.description }}</h5>
         {% endif %}

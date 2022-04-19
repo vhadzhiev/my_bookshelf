@@ -2,7 +2,7 @@ from django.urls import path
 
 from my_bookshelf.web_app.views.book_covers import CreateBookCoverView, ChangeBookCoverView, DeleteBookCoverView
 from my_bookshelf.web_app.views.books import CreateBookView, EditBookView, DeleteBookView, BookDetailsView, \
-    BooksListView
+    BooksListView, BooksByGenreListView
 from my_bookshelf.web_app.views.bookshelves import CreateBookshelfView, EditBookshelfView, DeleteBookshelfView, \
     BookshelfDetailsView, BookshelvesListView
 from my_bookshelf.web_app.views.generic import HomeView, DashboardView
@@ -15,7 +15,9 @@ urlpatterns = (
     path('book/edit/<int:pk>/', EditBookView.as_view(), name='book edit'),
     path('book/delete/<int:pk>/', DeleteBookView.as_view(), name='book delete'),
     path('book/<int:pk>/', BookDetailsView.as_view(), name='book details'),
+
     path('books/list/', BooksListView.as_view(), name='books list'),
+    path('books/list/genre/', BooksByGenreListView.as_view(), name='books list by genre'),
 
     path('book/cover/add/', CreateBookCoverView.as_view(), name='book cover add'),
     path('book/cover/edit/<int:pk>/', ChangeBookCoverView.as_view(), name='book cover change'),

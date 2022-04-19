@@ -52,6 +52,7 @@ class BookDetailsView(views.DetailView):
         context = super().get_context_data(**kwargs)
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
         self.request.session['book_id'] = self.object.id
+        self.request.session['book_genre'] = self.object.genre
 
         try:
             context['book_cover'] = BookCover.objects.get(book_id=self.object.id)
@@ -66,5 +67,16 @@ class BooksListView(views.ListView):
     template_name = 'web_app/books_list.html'
     queryset = Book.objects.order_by('title')
     paginate_by = 10
+
+
+class BooksByGenreListView(views.ListView):
+    model = Book
+    template_name = 'web_app/books_by_genre_list.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        book_genre = self.request.session['book_genre']
+        queryset = Book.objects.filter(genre=book_genre).order_by('title')
+        return queryset
 
 
