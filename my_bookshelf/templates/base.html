@@ -21,9 +21,18 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'books list' %}">Books</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'bookshelves list' %}">Bookshelves</a>
+            </li>
             {% if request.user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    <a class="nav-link" href="{% url 'profiles list' %}">Profiles</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'book add' %}">Add book</a>
@@ -33,24 +42,12 @@
                 </li>
                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-toggle="dropdown" aria-expanded="false">
-                        Browse
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'profiles list' %}">Profiles</a>
-                        <a class="dropdown-item" href="{% url 'books list' %}">Books</a>
-                        <a class="dropdown-item" href="{% url 'bookshelves list' %}">Bookshelves</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-toggle="dropdown" aria-expanded="false">
-                        {{ request.user.profile }}
-                    </a>
+                       data-toggle="dropdown" aria-expanded="false">{{ request.user.profile }}</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'profile details' request.user.id %}">My Profile</a>
-                        <a class="dropdown-item" href="{% url 'my books' %}">My Books</a>
-                        <a class="dropdown-item" href="{% url 'my bookshelves' %}">My Bookshelves</a>
+                        <a class="dropdown-item" href="{% url 'profile books' request.user.id %}">My Books</a>
+                        <a class="dropdown-item" href="{% url 'profile bookshelves' request.user.id %}">My
+                            Bookshelves</a>
                         <a class="dropdown-item" href="{% url 'logout user' %}">Logout</a>
                     </div>
                 </li>

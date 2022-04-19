@@ -1,9 +1,11 @@
 from django.urls import path
 
-from my_bookshelf.web_app.views import HomeView, DashboardView, CreateBookView, EditBookView, DeleteBookView, \
-    BookDetailsView, CreateBookshelfView, EditBookshelfView, DeleteBookshelfView, BookshelfDetailsView, MyBooksListView, \
-    MyBookshelvesListView, ProfilesListView, BooksListView, BookshelvesListView, CreateBookCoverView, \
-    ChangeBookCoverView, DeleteBookCoverView
+from my_bookshelf.web_app.views.book_covers import CreateBookCoverView, ChangeBookCoverView, DeleteBookCoverView
+from my_bookshelf.web_app.views.books import CreateBookView, EditBookView, DeleteBookView, BookDetailsView, \
+    BooksListView
+from my_bookshelf.web_app.views.bookshelves import CreateBookshelfView, EditBookshelfView, DeleteBookshelfView, \
+    BookshelfDetailsView, BookshelvesListView
+from my_bookshelf.web_app.views.generic import HomeView, DashboardView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -13,6 +15,7 @@ urlpatterns = (
     path('book/edit/<int:pk>/', EditBookView.as_view(), name='book edit'),
     path('book/delete/<int:pk>/', DeleteBookView.as_view(), name='book delete'),
     path('book/<int:pk>/', BookDetailsView.as_view(), name='book details'),
+    path('books/list/', BooksListView.as_view(), name='books list'),
 
     path('book/cover/add/', CreateBookCoverView.as_view(), name='book cover add'),
     path('book/cover/edit/<int:pk>/', ChangeBookCoverView.as_view(), name='book cover change'),
@@ -22,11 +25,5 @@ urlpatterns = (
     path('bookshelf/edit/<int:pk>/', EditBookshelfView.as_view(), name='bookshelf edit'),
     path('bookshelf/delete/<int:pk>/', DeleteBookshelfView.as_view(), name='bookshelf delete'),
     path('bookshelf/<int:pk>/', BookshelfDetailsView.as_view(), name='bookshelf details'),
-
-    path('my_books/', MyBooksListView.as_view(), name='my books'),
-    path('my_bookshelves/', MyBookshelvesListView.as_view(), name='my bookshelves'),
-
-    path('profiles/list/', ProfilesListView.as_view(), name='profiles list'),
-    path('books/list/', BooksListView.as_view(), name='books list'),
     path('bookshelves/list/', BookshelvesListView.as_view(), name='bookshelves list'),
 )
