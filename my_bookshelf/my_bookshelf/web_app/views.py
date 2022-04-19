@@ -21,8 +21,7 @@ class HomeView(views.TemplateView):
 class DashboardView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
-    queryset = Book.objects.all() \
-                   .filter(date_added__gte=timezone.now() - timezone.timedelta(days=7)) \
+    queryset = Book.objects.filter(date_added__gte=timezone.now() - timezone.timedelta(days=7))\
                    .order_by('-date_added')[:10]
 
 
@@ -52,7 +51,7 @@ class BookDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
         self.request.session['book_id'] = self.object.id
 
         try:
-            context['book_cover'] = BookCover.objects.all().get(book_id=self.object.id)
+            context['book_cover'] = BookCover.objects.get(book_id=self.object.id)
         except BookCover.DoesNotExist:
             context['book_cover'] = None
 
@@ -134,7 +133,7 @@ class MyBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Book.objects.all().filter(user_id=self.request.user.id).order_by('-date_added')
+        return Book.objects.filter(user_id=self.request.user.id).order_by('-date_added')
 
 
 class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
@@ -143,27 +142,27 @@ class MyBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Bookshelf.objects.all().filter(user_id=self.request.user.id).order_by('title')
+        return Bookshelf.objects.filter(user_id=self.request.user.id).order_by('title')
 
 
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'web_app/profiles_list.html'
-    queryset = Profile.objects.all().order_by('first_name', 'last_name')
+    queryset = Profile.objects.order_by('first_name', 'last_name')
     paginate_by = 10
 
 
 class BooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
-    queryset = Book.objects.all().order_by('title')
+    queryset = Book.objects.order_by('title')
     paginate_by = 10
 
 
 class BookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
-    queryset = Bookshelf.objects.all().order_by('title')
+    queryset = Bookshelf.objects.order_by('title')
     paginate_by = 10
 
 

@@ -68,11 +68,11 @@ class ProfileDetailsView(auth_mixins.LoginRequiredMixin, views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_count'] = len(Book.objects.all().filter(user_id=self.object.user_id))
-        context['bookshelves_count'] = len(Bookshelf.objects.all().filter(user_id=self.object.user_id))
+        context['books_count'] = len(Book.objects.filter(user_id=self.object.user_id))
+        context['bookshelves_count'] = len(Bookshelf.objects.filter(user_id=self.object.user_id))
 
         try:
-            context['profile_picture'] = ProfilePicture.objects.all().filter(user_id=self.object.user_id).last()
+            context['profile_picture'] = ProfilePicture.objects.get(user_id=self.object.user_id)
         except ProfilePicture.DoesNotExist:
             context['profile_picture'] = None
 
@@ -97,7 +97,7 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
         user.is_active = False
         user.save()
         Profile.objects.get(pk=user.id).delete()
-        ProfilePicture.objects.all().filter(user_id=self.object.id).delete()
+        ProfilePicture.objects.filter(user_id=self.object.id).delete()
         Book.objects.filter(user_id=user.id).delete()
         Bookshelf.objects.filter(user_id=user.id).delete()
         return redirect('home')

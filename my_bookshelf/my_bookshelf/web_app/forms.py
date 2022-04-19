@@ -56,7 +56,7 @@ class CreateBookshelfForm(forms.ModelForm):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['books'].queryset = Book.objects.all().filter(user_id=self.user.id).order_by('-date_added')
+            self.fields['books'].queryset = Book.objects.filter(user_id=self.user.id).order_by('-date_added')
 
     def clean_title(self):
         title = self.cleaned_data['title']
@@ -85,7 +85,7 @@ class EditBookshelfForm(forms.ModelForm):
         self.title = kwargs.pop('title')
         super().__init__(*args, **kwargs)
         if self.user:
-            self.fields['books'].queryset = Book.objects.all().filter(user_id=self.user.id).order_by('-date_added')
+            self.fields['books'].queryset = Book.objects.filter(user_id=self.user.id).order_by('-date_added')
 
     def clean_title(self):
         title = self.title
