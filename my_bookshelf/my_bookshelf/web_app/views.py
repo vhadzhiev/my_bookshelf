@@ -202,3 +202,4 @@ class DeleteBookCoverView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 
 # TODO add cache to ListViews
 # TODO split views in separate files
+# TODO add search bar

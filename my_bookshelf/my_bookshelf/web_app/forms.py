@@ -1,9 +1,10 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from my_bookshelf.web_app.models import Book, Bookshelf
 
-BOOK_ISBN_ERROR_MESSAGE = 'Book with this ISBN already exists for this user.'
-BOOKSHELF_TITLE_ERROR_MESSAGE = 'Bookshelf with this title already exists for this user.'
+BOOK_ISBN_EXCEPTION_MESSAGE = 'You have already added a ook with this ISBN.'
+BOOKSHELF_TITLE_EXCEPTION_MESSAGE = 'You have already created a bookshelf with this title.'
 
 
 class CreateBookForm(forms.ModelForm):
@@ -11,15 +12,15 @@ class CreateBookForm(forms.ModelForm):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
+    def clean_isbn(self):
+        isbn = self.cleaned_data['isbn']
         try:
-            Book.objects.get(isbn=cleaned_data['isbn'], user_id=self.user.id)
+            Book.objects.get(isbn=isbn, user_id=self.user.id)
         except Book.DoesNotExist:
             pass
         else:
-            self.add_error('isbn', BOOK_ISBN_ERROR_MESSAGE)
-        return cleaned_data
+            raise ValidationError(BOOK_ISBN_EXCEPTION_MESSAGE)
+        return isbn
 
     class Meta:
         model = Book
@@ -32,19 +33,18 @@ class EditBookForm(forms.ModelForm):
         self.isbn = kwargs.pop('isbn')
         super().__init__(*args, **kwargs)
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
+    def clean_isbn(self):
         isbn = self.isbn
-        edited_isbn = cleaned_data['isbn']
+        new_isbn = self.cleaned_data['isbn']
 
-        if isbn != edited_isbn:
+        if isbn != new_isbn:
             try:
-                Book.objects.get(isbn=cleaned_data['isbn'], user_id=self.user.id)
+                Book.objects.get(isbn=new_isbn, user_id=self.user.id)
             except Book.DoesNotExist:
                 pass
             else:
-                self.add_error('isbn', BOOK_ISBN_ERROR_MESSAGE)
-        return cleaned_data
+                raise ValidationError(BOOK_ISBN_EXCEPTION_MESSAGE)
+        return isbn
 
     class Meta:
         model = Book
@@ -58,15 +58,15 @@ class CreateBookshelfForm(forms.ModelForm):
         if self.user:
             self.fields['books'].queryset = Book.objects.all().filter(user_id=self.user.id).order_by('-date_added')
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
+    def clean_title(self):
+        title = self.cleaned_data['title']
         try:
-            Bookshelf.objects.get(title=cleaned_data['title'], user_id=self.user.id)
+            Bookshelf.objects.get(title=title, user_id=self.user.id)
         except Bookshelf.DoesNotExist:
             pass
         else:
-            self.add_error('title', BOOKSHELF_TITLE_ERROR_MESSAGE)
-        return cleaned_data
+            raise ValidationError(BOOKSHELF_TITLE_EXCEPTION_MESSAGE)
+        return title
 
     class Meta:
         model = Bookshelf
@@ -87,19 +87,18 @@ class EditBookshelfForm(forms.ModelForm):
         if self.user:
             self.fields['books'].queryset = Book.objects.all().filter(user_id=self.user.id).order_by('-date_added')
 
-    def clean(self):
-        cleaned_data = self.cleaned_data
+    def clean_title(self):
         title = self.title
-        edited_title = cleaned_data['title']
+        new_title = self.cleaned_data['title']
 
-        if title != edited_title:
+        if title != new_title:
             try:
-                Bookshelf.objects.get(title=cleaned_data['title'], user_id=self.user.id)
+                Bookshelf.objects.get(title=new_title, user_id=self.user.id)
             except Bookshelf.DoesNotExist:
                 pass
             else:
-                self.add_error('title', BOOKSHELF_TITLE_ERROR_MESSAGE)
-        return cleaned_data
+                raise ValidationError(BOOKSHELF_TITLE_EXCEPTION_MESSAGE)
+        return title
 
     class Meta:
         model = Bookshelf

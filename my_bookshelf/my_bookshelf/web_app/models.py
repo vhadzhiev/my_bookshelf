@@ -1,8 +1,10 @@
 from cloudinary import models as cloudinary_models
 from django.contrib.auth import get_user_model
+from django.core import validators
 from django.db import models
 
 from my_bookshelf.auth_app.models import Profile
+from my_bookshelf.common.validators import validate_image_max_size_in_mb
 from my_bookshelf.web_app.validators import validate_only_digits, validate_correct_length
 
 UserModel = get_user_model()
@@ -103,7 +105,12 @@ class Bookshelf(models.Model):
 
 
 class BookCover(models.Model):
-    image = cloudinary_models.CloudinaryField('image')
+    image = cloudinary_models.CloudinaryField(
+        'image',
+        validators=(
+            validate_image_max_size_in_mb,
+        ),
+    )
 
     date_added = models.DateTimeField(
         auto_now_add=True,

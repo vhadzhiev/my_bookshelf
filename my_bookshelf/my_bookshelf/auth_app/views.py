@@ -6,7 +6,8 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
 
-from my_bookshelf.auth_app.forms import UserRegisterForm, EditProfileForm
+from my_bookshelf.auth_app.forms import UserRegisterForm, EditProfileForm, CreateProfilePictureForm, \
+    ChangeProfilePictureForm
 from my_bookshelf.auth_app.models import Profile, MyBookshelfUser, ProfilePicture
 from my_bookshelf.web_app.models import Book, Bookshelf
 
@@ -120,7 +121,6 @@ class ChangeProfilePictureView(auth_mixins.LoginRequiredMixin, views.UpdateView)
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_change.html'
     fields = ('picture',)
-    context_object_name = 'picture'
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})
@@ -129,7 +129,6 @@ class ChangeProfilePictureView(auth_mixins.LoginRequiredMixin, views.UpdateView)
 class DeleteProfilePictureView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = ProfilePicture
     template_name = 'auth_app/profile_picture_delete.html'
-    context_object_name = 'picture'
 
     def get_success_url(self):
         return reverse_lazy('profile details', kwargs={'pk': self.object.user_id})

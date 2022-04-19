@@ -2,9 +2,11 @@ from datetime import date
 
 from cloudinary import models as cloudinary_models
 from django.contrib.auth import models as auth_models
+from django.core import validators
 from django.db import models
 
 from my_bookshelf.auth_app.managers import MyBookshelfUsersManager
+from my_bookshelf.common.validators import validate_image_max_size_in_mb
 
 
 class MyBookshelfUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -67,7 +69,7 @@ class Profile(models.Model):
     def age(self):
         today = date.today()
         return today.year - self.date_of_birth.year - (
-                    (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
+                (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
 
     @property
     def full_name(self):
@@ -78,7 +80,12 @@ class Profile(models.Model):
 
 
 class ProfilePicture(models.Model):
-    picture = cloudinary_models.CloudinaryField('image')
+    picture = cloudinary_models.CloudinaryField(
+        'image',
+        validators=(
+            validate_image_max_size_in_mb,
+        ),
+    )
 
     date_added = models.DateTimeField(
         auto_now_add=True,

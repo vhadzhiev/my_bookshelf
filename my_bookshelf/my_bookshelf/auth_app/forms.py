@@ -39,17 +39,17 @@ class EditProfileForm(forms.ModelForm):
             'first_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter first name',
-                }
+                },
             ),
             'last_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter last name',
-                }
+                },
             ),
             'date_of_birth': forms.DateInput(
                 attrs={
                     'type': 'date',
-                }
+                },
             ),
             'bio': forms.Textarea(
                 attrs={
