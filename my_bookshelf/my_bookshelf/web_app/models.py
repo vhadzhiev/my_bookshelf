@@ -4,7 +4,7 @@ from django.core import validators
 from django.db import models
 
 from my_bookshelf.auth_app.models import Profile
-from my_bookshelf.common.validators import validate_image_max_size_in_mb
+from my_bookshelf.common.validators import validate_image_max_size_in_mb, IMAGE_MAX_FILE_SIZE_IN_MB
 from my_bookshelf.web_app.validators import validate_only_digits, validate_correct_length
 
 UserModel = get_user_model()
@@ -48,6 +48,7 @@ class Book(models.Model):
             validate_correct_length,
         ),
         verbose_name='ISBN',
+        help_text='Book\'s unique identifier. ISBN consists only of digits and must be 10 or 13 symbols long.',
     )
 
     genre = models.CharField(
@@ -98,6 +99,7 @@ class Bookshelf(models.Model):
         Book,
         blank=True,
         null=True,
+        help_text='Please, choose the books, that you want to include in this bookshelf.'
     )
 
     def __str__(self):
@@ -110,6 +112,7 @@ class BookCover(models.Model):
         validators=(
             validate_image_max_size_in_mb,
         ),
+        help_text=f'The maximum allowed image size is {IMAGE_MAX_FILE_SIZE_IN_MB} MB'
     )
 
     date_added = models.DateTimeField(

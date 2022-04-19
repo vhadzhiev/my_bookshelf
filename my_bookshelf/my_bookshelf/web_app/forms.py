@@ -25,6 +25,29 @@ class CreateBookForm(forms.ModelForm):
     class Meta:
         model = Book
         exclude = ('user',)
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s title',
+                },
+            ),
+            'author': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s author',
+                },
+            ),
+            'isbn': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s ISBN',
+                },
+            ),
+            'summary': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter book\'s summary',
+                    'rows': 5,
+                },
+            ),
+        }
 
 
 class EditBookForm(forms.ModelForm):
@@ -49,6 +72,29 @@ class EditBookForm(forms.ModelForm):
     class Meta:
         model = Book
         exclude = ('user',)
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s title',
+                },
+            ),
+            'author': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s author',
+                },
+            ),
+            'isbn': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter book\'s ISBN',
+                },
+            ),
+            'summary': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter book\'s summary',
+                    'rows': 5,
+                },
+            ),
+        }
 
 
 class CreateBookshelfForm(forms.ModelForm):
@@ -71,12 +117,20 @@ class CreateBookshelfForm(forms.ModelForm):
     class Meta:
         model = Bookshelf
         exclude = ('user',)
-
-    books = forms.ModelMultipleChoiceField(
-        queryset=None,
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-    )
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter bookshelf\'s title',
+                },
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter bookshelf\'s description',
+                    'rows': 5,
+                },
+            ),
+            'books': forms.CheckboxSelectMultiple(),
+        }
 
 
 class EditBookshelfForm(forms.ModelForm):
@@ -103,12 +157,17 @@ class EditBookshelfForm(forms.ModelForm):
     class Meta:
         model = Bookshelf
         exclude = ('user',)
-
-    books = forms.ModelMultipleChoiceField(
-        queryset=None,
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-    )
-
-# TODO add placeholders, help text, labels to forms
-# TODO move validation in models
+        widgets = {
+            'title': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter bookshelf\'s title',
+                },
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'placeholder': 'Enter bookshelf\'s description',
+                    'rows': 5,
+                },
+            ),
+            'books': forms.CheckboxSelectMultiple(),
+        }
