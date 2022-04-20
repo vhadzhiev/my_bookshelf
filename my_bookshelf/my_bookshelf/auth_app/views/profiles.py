@@ -5,6 +5,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.forms import EditProfileForm
 from my_bookshelf.auth_app.models import Profile, ProfilePicture
+from my_bookshelf.common.mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()
@@ -52,22 +53,28 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
         return redirect('home')
 
 
-class ProfileBooksListView(auth_mixins.LoginRequiredMixin, views.ListView):
+class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Book
     template_name = 'auth_app/profile_books.html'
+    queryset = Book.objects.order_by('title')
     paginate_by = 10
 
     def get_queryset(self):
-        return Book.objects.filter(user_id=self.request.user.id).order_by('-date_added')
+        object_list = super().get_queryset()
+        queryset = object_list.filter(user_id=self.request.user.id)
+        return queryset
 
 
-class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, views.ListView):
+class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'auth_app/profile_bookshelves.html'
+    queryset = Bookshelf.objects.order_by('title')
     paginate_by = 10
 
     def get_queryset(self):
-        return Bookshelf.objects.filter(user_id=self.request.user.id).order_by('title')
+        object_list = super().get_queryset()
+        queryset = object_list.filter(user_id=self.request.user.id)
+        return queryset
 
 
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):

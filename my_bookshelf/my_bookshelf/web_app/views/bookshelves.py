@@ -4,13 +4,13 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookshelfForm, EditBookshelfForm
+from my_bookshelf.common.mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Bookshelf
 
 
 class CreateBookshelfView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookshelfForm
     template_name = 'web_app/bookshelf_add.html'
-    success_url = reverse_lazy('profile bookshelves')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -20,6 +20,9 @@ class CreateBookshelfView(auth_mixins.LoginRequiredMixin, views.CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('profile bookshelves', kwargs={'pk': self.object.user.id})
 
 
 class EditBookshelfView(auth_mixins.LoginRequiredMixin, views.UpdateView):
@@ -40,7 +43,9 @@ class EditBookshelfView(auth_mixins.LoginRequiredMixin, views.UpdateView):
 class DeleteBookshelfView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_delete.html'
-    success_url = reverse_lazy('profile bookshelves')
+
+    def get_success_url(self):
+        return reverse_lazy('profile bookshelves', kwargs={'pk': self.object.user.id})
 
 
 class BookshelfDetailsView(views.DetailView):
@@ -55,7 +60,7 @@ class BookshelfDetailsView(views.DetailView):
         return context
 
 
-class BookshelvesListView(views.ListView):
+class BookshelvesListView(SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
     queryset = Bookshelf.objects.order_by('title')

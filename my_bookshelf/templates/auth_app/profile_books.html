@@ -1,47 +1,55 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block page_content %}
     <h1>My Books</h1>
     <hr>
-    {% if object_list %}
-        <div class="card-columns">
-            {% for book in object_list %}
-                <div class="card">
-                    <img class="card-img-top" src="{{ book.bookcover.image.url }}" alt="No book cover.">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ book.title }}</h5>
-                        {% if book.summary %}
-                            <p class="card-text">{{ book.summary|truncatechars:100 }}</p>
-                        {% endif %}
-                        <p><a href="{% url 'book details' book.id %}" class="badge badge-success">Book
-                            details</a></p>
-                    </div>
-                </div>
-            {% endfor %}
+    <form method="get">
+        {% csrf_token %}
+        {{ search_form|crispy }}
+        <div class="text-center">
+            <button class="btn btn-success" type="submit">Submit</button>
         </div>
-        <nav aria-label>
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                    <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
-                {% else %}
-                    <li class="page-item disabled"><a class="page-link">First</a></li>
-                    <li class="page-item disabled"><a class="page-link">Previous</a></li>
-                {% endif %}
-                <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}
-                    of {{ page_obj.paginator.num_pages }}</a></li>
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled"><a class="page-link">Next</a></li>
-                    <li class="page-item disabled"><a class="page-link">Last</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% else %}
-        <h1>You have not added any books yet.</h1>
+    </form>
+    {% if query %}
+        You searched for "{{ query }}"
     {% endif %}
+    <br>
+    <div class="card-columns">
+        {% for book in object_list %}
+            <div class="card">
+                <img class="card-img-top" src="{{ book.bookcover.image.url }}" alt="No book cover.">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    {% if book.summary %}
+                        <p class="card-text">{{ book.summary|truncatechars:100 }}</p>
+                    {% endif %}
+                    <p><a href="{% url 'book details' book.id %}" class="badge badge-success">Book
+                        details</a></p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <nav aria-label>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item"><a class="page-link"
+                                         href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link">First</a></li>
+                <li class="page-item disabled"><a class="page-link">Previous</a></li>
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}
+                of {{ page_obj.paginator.num_pages }}</a></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><a class="page-link">Next</a></li>
+                <li class="page-item disabled"><a class="page-link">Last</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}

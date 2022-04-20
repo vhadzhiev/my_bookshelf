@@ -4,13 +4,13 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookForm, EditBookForm
+from my_bookshelf.common.mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, BookCover
 
 
 class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookForm
     template_name = 'web_app/book_add.html'
-    success_url = reverse_lazy('profile books')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -20,6 +20,9 @@ class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('profile books', kwargs={'pk': self.object.user.id})
 
 
 class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
@@ -42,6 +45,9 @@ class DeleteBookView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     template_name = 'web_app/book_delete.html'
     success_url = reverse_lazy('profile books')
 
+    def get_success_url(self):
+        return reverse_lazy('profile books', kwargs={'pk': self.object.user.id})
+
 
 class BookDetailsView(views.DetailView):
     model = Book
@@ -62,21 +68,23 @@ class BookDetailsView(views.DetailView):
         return context
 
 
-class BooksListView(views.ListView):
+class BooksListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
     queryset = Book.objects.order_by('title')
     paginate_by = 10
 
 
-class BooksByGenreListView(views.ListView):
+class BooksByGenreListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_by_genre_list.html'
+    queryset = Book.objects.order_by('title')
     paginate_by = 10
 
     def get_queryset(self):
+        object_list = super().get_queryset()
         book_genre = self.request.session['book_genre']
-        queryset = Book.objects.filter(genre=book_genre).order_by('title')
+        queryset = object_list.filter(genre=book_genre)
         return queryset
 
 

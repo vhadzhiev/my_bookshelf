@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block page_content %}
     <h1>{{ request.session.book_genre }} Books List</h1>
     <hr>
+    <form method="get">
+        {% csrf_token %}
+        {{ search_form|crispy }}
+        <div class="text-center">
+            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+    </form>
+    <br>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
