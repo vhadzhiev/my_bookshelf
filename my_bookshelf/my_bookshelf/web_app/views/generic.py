@@ -4,6 +4,8 @@ from django.views import generic as views
 
 from my_bookshelf.web_app.models import Book
 
+DAYS_FOR_RECENTLY_ADDED_BOOKS = 7
+
 
 class HomeView(views.TemplateView):
     template_name = 'web_app/home.html'
@@ -17,5 +19,6 @@ class HomeView(views.TemplateView):
 class DashboardView(views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
-    queryset = Book.objects.filter(date_added__gte=timezone.now() - timezone.timedelta(days=7)) \
+    queryset = Book.objects \
+                   .filter(date_added__gte=timezone.now() - timezone.timedelta(days=DAYS_FOR_RECENTLY_ADDED_BOOKS)) \
                    .order_by('-date_added')[:10]
