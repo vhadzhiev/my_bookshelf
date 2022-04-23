@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 
@@ -21,3 +22,6 @@ urlpatterns = [
     path('', include('my_bookshelf.web_app.urls')),
     path('auth/', include('my_bookshelf.auth_app.urls')),
 ]
+
+handler404 = 'my_bookshelf.common.views.handle_not_found'
+handler500 = 'my_bookshelf.common.views.handle_server_error'
