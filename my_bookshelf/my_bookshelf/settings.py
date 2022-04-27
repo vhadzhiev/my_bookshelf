@@ -1,4 +1,4 @@
-import os
+from os import mkdir
 from pathlib import Path
 import cloudinary
 from django.urls import reverse_lazy
@@ -133,6 +133,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGS_DIR = BASE_DIR / 'Logs'
+
+try:
+    mkdir(LOGS_DIR)
+except:
+    pass
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -140,33 +147,53 @@ LOGGING = {
         'verbose': {
             'format': '{asctime} [{levelname}] {module} {process:d} {thread:d} {message}',
             'style': '{',
-        }
+        },
     },
     'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'INFO',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': LOGS_DIR / 'Log.txt',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'INFO',
+            'handlers': ['console'],
+            'filters': [],
+        },
+    },
+}
+
+if is_production():
+    LOGGING['handlers'] = {
         'coralogix': {
             'class': 'coralogix.handlers.CoralogixLogger',
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'formatter': 'verbose',
             'private_key': config('CORALOGIX_PRIVATE_KEY'),
             'app_name': config('CORALOGIX_APP_NAME'),
             'subsystem': config('CORALOGIX_SUBSYSTEM_NAME'),
         }
-    },
-    'root': {
-        'level': 'DEBUG',
-        'handlers': [
-            'coralogix',
-        ]
-    },
-    'loggers': {
-        'backend': {
-            'level': 'DEBUG',
-            'handlers': [
-                'coralogix',
-            ]
+    }
+    LOGGING['root'] = {
+        'level': 'WARNING',
+        'handlers': ['coralogix', ]
+    }
+    LOGGING['loggers'] = {
+        'django.db.backends': {
+            'level': 'WARNING',
+            'handlers': ['coralogix',]
         }
     }
-}
 
 cloudinary.config(
     cloud_name=config('CLOUDINARY_CLOUD_NAME'),

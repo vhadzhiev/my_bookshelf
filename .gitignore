@@ -132,5 +132,5 @@ dmypy.json
 # idea folder
 .idea/
 
-# sent_emails folder
-.sent_emails/
+# Logs folder
+.Logs/
