@@ -16,6 +16,5 @@ class UserModelTests(TestCase):
         self.assertTemplateUsed(response, 'auth_app/register.html')
 
     def test_user_register__when_valid_email_and_password__should_register_user(self):
-        user = UserModel(**self.VALID_USER_CREDENTIALS)
-        user.save()
+        user = UserModel.objects.create(**self.VALID_USER_CREDENTIALS)
         self.assertIsNotNone(user.pk)

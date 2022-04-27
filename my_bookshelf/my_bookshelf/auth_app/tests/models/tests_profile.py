@@ -21,10 +21,8 @@ class ProfileTest(TestCase):
     }
 
     def test_register_form_valid__when_valid_credentials__should_create_profile(self):
-        user = UserModel(**self.VALID_USER_CREDENTIALS)
-        user.save()
-        profile = Profile(user=user, **self.VALID_PROFILE_DATA)
-        profile.save()
+        user = UserModel.objects.create(**self.VALID_USER_CREDENTIALS)
+        profile = Profile.objects.create(user=user, **self.VALID_PROFILE_DATA)
         self.assertIsNotNone(profile)
         self.assertEqual(profile.user_id, user.id)
 
