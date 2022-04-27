@@ -24,12 +24,9 @@ class UserRegisterView(views.CreateView):
 
 class UserLoginView(auth_views.LoginView):
     template_name = 'auth_app/login.html'
-    success_url = reverse_lazy('dashboard')
 
     def get_success_url(self):
-        if self.success_url:
-            return self.success_url
-        return super().get_success_url()
+        return reverse_lazy('dashboard')
 
 
 class UserLogoutView(auth_mixins.LoginRequiredMixin, auth_views.LogoutView):

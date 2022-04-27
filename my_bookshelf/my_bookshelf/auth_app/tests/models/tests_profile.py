@@ -9,7 +9,7 @@ from my_bookshelf.auth_app.models import Profile
 UserModel = get_user_model()
 
 
-class ProfileTest(TestCase):
+class ProfileTests(TestCase):
     VALID_USER_CREDENTIALS = {
         'email': 'vaski@gmail.com',
         'password': '123456',
@@ -20,11 +20,13 @@ class ProfileTest(TestCase):
         'last_name': 'Vaski',
     }
 
-    def test_register_form_valid__when_valid_credentials__should_create_profile(self):
-        user = UserModel.objects.create(**self.VALID_USER_CREDENTIALS)
+    def test_register__when_all_valid__should_create_profile(self):
+        user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
         profile = Profile.objects.create(user=user, **self.VALID_PROFILE_DATA)
         self.assertIsNotNone(profile)
         self.assertEqual(profile.user_id, user.id)
+        self.assertEqual(self.VALID_PROFILE_DATA['first_name'], profile.first_name)
+        self.assertEqual(self.VALID_PROFILE_DATA['last_name'], profile.last_name)
 
     def test_profile_full_name__when_valid__expect_correct_full_name(self):
         profile = Profile(**self.VALID_PROFILE_DATA)
@@ -46,6 +48,5 @@ class ProfileTest(TestCase):
 
         with self.assertRaises(ValidationError) as context:
             profile.full_clean()
-            profile.save()
 
         self.assertIsNotNone(context.exception)
