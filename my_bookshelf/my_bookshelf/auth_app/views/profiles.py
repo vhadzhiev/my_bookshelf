@@ -2,7 +2,6 @@ from django.contrib.auth import mixins as auth_mixins, get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
-from django.views.decorators.cache import cache_page
 
 from my_bookshelf.auth_app.forms import EditProfileForm
 from my_bookshelf.auth_app.models import Profile, ProfilePicture
@@ -54,7 +53,6 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
         return redirect('home')
 
 
-@cache_page(2 * 60)
 class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Book
     template_name = 'auth_app/profile_books.html'
@@ -67,7 +65,6 @@ class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views
         return queryset
 
 
-@cache_page(5 * 60)
 class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'auth_app/profile_bookshelves.html'
@@ -80,7 +77,6 @@ class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin,
         return queryset
 
 
-@cache_page(5 * 60)
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'auth_app/profiles_list.html'
