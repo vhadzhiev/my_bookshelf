@@ -1,6 +1,7 @@
 from django.contrib.auth import mixins as auth_mixins
 from django.urls import reverse_lazy
 from django.views import generic as views
+from django.views.decorators.cache import cache_page
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookForm, EditBookForm
@@ -68,6 +69,7 @@ class BookDetailsView(views.DetailView):
         return context
 
 
+@cache_page(2 * 60)
 class BooksListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
@@ -75,6 +77,7 @@ class BooksListView(SearchBarMixin, views.ListView):
     paginate_by = 10
 
 
+@cache_page(2 * 60)
 class BooksByGenreListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_by_genre_list.html'
@@ -86,5 +89,3 @@ class BooksByGenreListView(SearchBarMixin, views.ListView):
         book_genre = self.request.session['book_genre']
         queryset = object_list.filter(genre=book_genre)
         return queryset
-
-

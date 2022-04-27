@@ -1,6 +1,7 @@
 from django.contrib.auth import mixins as auth_mixins
 from django.urls import reverse_lazy
 from django.views import generic as views
+from django.views.decorators.cache import cache_page
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import CreateBookshelfForm, EditBookshelfForm
@@ -60,6 +61,7 @@ class BookshelfDetailsView(views.DetailView):
         return context
 
 
+@cache_page(5 * 60)
 class BookshelvesListView(SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'

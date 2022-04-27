@@ -172,7 +172,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = reverse_lazy('login user')
 
-# TODO add cache to ListViews
 # TODO add sorting in ListViews
 # TODO add logging
 # TODO add comments model
