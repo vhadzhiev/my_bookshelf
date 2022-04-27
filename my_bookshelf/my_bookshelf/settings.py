@@ -1,19 +1,18 @@
-from os import mkdir
+import os
 from pathlib import Path
 import cloudinary
 from django.urls import reverse_lazy
-from decouple import config
 from my_bookshelf.utils import is_production, is_test
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY', 'sk')
 
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-APP_ENVIRONMENT = config('APP_ENVIRONMENT')
+APP_ENVIRONMENT = os.getenv('APP_ENVIRONMENT')
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 DJANGO_APPS = (
     'django.contrib.admin',
@@ -68,11 +67,11 @@ WSGI_APPLICATION = 'my_bookshelf.wsgi.application'
 
 DEFAULT_DATABASE_CONFIG = {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': config('DB_NAME'),
-    'USER': config('DB_USER'),
-    'PASSWORD': config('DB_PASSWORD'),
-    'HOST': config('DB_HOST'),
-    'PORT': config('DB_PORT'),
+    'NAME': os.getenv('DB_NAME'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT', '5432'),
 }
 
 DATABASES = {
@@ -86,7 +85,7 @@ DEFAULT_CACHE_CONFIG = {
 if is_production():
     DEFAULT_CACHE_CONFIG = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': config('REDISTOGO_URL'),
+        'LOCATION': os.getenv('REDISTOGO_URL'),
     }
 
 CACHES = {
@@ -136,7 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGS_DIR = BASE_DIR / 'Logs'
 
 try:
-    mkdir(LOGS_DIR)
+    os.mkdir(LOGS_DIR)
 except:
     pass
 
@@ -179,9 +178,9 @@ if is_production():
             'class': 'coralogix.handlers.CoralogixLogger',
             'level': 'WARNING',
             'formatter': 'verbose',
-            'private_key': config('CORALOGIX_PRIVATE_KEY'),
-            'app_name': config('CORALOGIX_APP_NAME'),
-            'subsystem': config('CORALOGIX_SUBSYSTEM_NAME'),
+            'private_key': os.getenv('CORALOGIX_PRIVATE_KEY'),
+            'app_name': os.getenv('CORALOGIX_APP_NAME'),
+            'subsystem': os.getenv('CORALOGIX_SUBSYSTEM_NAME'),
         }
     }
     LOGGING['root'] = {
@@ -196,19 +195,19 @@ if is_production():
     }
 
 cloudinary.config(
-    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
-    api_key=config('CLOUDINARY_API_KEY'),
-    api_secret=config('CLOUDINARY_API_SECRET'),
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
 )
 
 AUTH_USER_MODEL = 'auth_app.MyBookshelfUser'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT', cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
