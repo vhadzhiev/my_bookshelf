@@ -13,7 +13,7 @@ class UserModelTests(TestCase):
 
     def test_get__expect_correct_template(self):
         response = self.client.get(reverse('register user'))
-        self.assertTemplateUsed(response, 'auth_app/register.html')
+        self.assertTemplateUsed(response, 'auth_app/register_user.html')
 
     def test_user_register__when_valid_email_and_password__should_register_user(self):
         user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)

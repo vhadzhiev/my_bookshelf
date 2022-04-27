@@ -16,7 +16,7 @@ class UserLoginViewTest(TestCase):
         login_result = self.client.login(**self.VALID_USER_CREDENTIALS)
         response = self.client.get(reverse('login user'))
         self.assertTrue(login_result)
-        self.assertTemplateUsed(response, 'auth_app/login.html')
+        self.assertTemplateUsed(response, 'auth_app/login_user.html')
 
     def test_login__when_invalid_email__expect_no_login(self):
         UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
@@ -32,4 +32,4 @@ class UserLoginViewTest(TestCase):
         UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
         self.client.login(**self.VALID_USER_CREDENTIALS)
         response = self.client.logout()
-        self.assertTemplateUsed(response, 'auth_app/logout.html')
+        self.assertTemplateUsed(response, 'auth_app/logout_user.html')

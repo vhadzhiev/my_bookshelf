@@ -11,7 +11,7 @@ UserModel = get_user_model()
 
 class UserRegisterView(views.CreateView):
     form_class = UserRegisterForm
-    template_name = 'auth_app/register.html'
+    template_name = 'auth_app/register_user.html'
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
@@ -23,11 +23,11 @@ class UserRegisterView(views.CreateView):
 
 
 class UserLoginView(auth_views.LoginView):
-    template_name = 'auth_app/login.html'
+    template_name = 'auth_app/login_user.html'
 
     def get_success_url(self):
         return reverse_lazy('dashboard')
 
 
 class UserLogoutView(auth_mixins.LoginRequiredMixin, auth_views.LogoutView):
-    template_name = 'auth_app/logout.html'
+    template_name = 'auth_app/logout_user.html'
