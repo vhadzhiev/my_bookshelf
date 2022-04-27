@@ -133,26 +133,37 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGGING_LEVEL = 'DEBUG'
-
-if is_production():
-    LOGGING_LEVEL = 'INFO'
-elif is_test():
-    LOGGING_LEVEL = 'CRITICAL'
-
 LOGGING = {
     'version': 1,
-    'handlers': {
-        'console': {
-            'level': LOGGING_LEVEL,
-            'filters': [],
-            'class': 'logging.StreamHandler',
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} [{levelname}] {module} {process:d} {thread:d} {message}',
+            'style': '{',
         }
     },
+    'handlers': {
+        'coralogix': {
+            'class': 'coralogix.handlers.CoralogixLogger',
+            'level': 'DEBUG',
+            'formatter': 'verbose',
+            'private_key': config('CORALOGIX_PRIVATE_KEY'),
+            'app_name': config('CORALOGIX_APP_NAME'),
+            'subsystem': config('CORALOGIX_SUBSYSTEM_NAME'),
+        }
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': [
+            'coralogix',
+        ]
+    },
     'loggers': {
-        'django.db.backends': {
-            'level': LOGGING_LEVEL,
-            'handlers': ['console'],
+        'backend': {
+            'level': 'DEBUG',
+            'handlers': [
+                'coralogix',
+            ]
         }
     }
 }
@@ -177,7 +188,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = reverse_lazy('login user')
 
 # TODO add sorting in ListViews
-# TODO add logging
 # TODO add comments model
 # TODO add book rating
-# TODO write test
