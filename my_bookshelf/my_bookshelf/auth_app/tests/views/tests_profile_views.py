@@ -6,27 +6,10 @@ from django.test import TestCase
 from django.urls import reverse
 
 from my_bookshelf.auth_app.models import Profile
+from my_bookshelf.common.helpers import ValidUserAndProfileMixin
 from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()
-
-
-class ValidUserAndProfileMixin:
-    VALID_USER_CREDENTIALS = {
-        'email': 'vaski@gmail.com',
-        'password': '123456',
-    }
-
-    VALID_PROFILE_DATA = {
-        'first_name': 'Vaski',
-        'last_name': 'Vaski',
-    }
-
-    def create_valid_user_and_profile(self):
-        user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(**self.VALID_PROFILE_DATA, user=user)
-        return user, profile
-
 
 class ProfileDetailsViewTest(ValidUserAndProfileMixin, TestCase):
     def test_get__when_profile_details_view__expect_correct_template_and_context(self):
@@ -97,7 +80,7 @@ class ProfileDeleteViewTest(ValidUserAndProfileMixin, TestCase):
 
 class ProfilesListViewTest(ValidUserAndProfileMixin, TestCase):
     def test__when_one_profile__expect_context_to_contain_one_profile_and_correct_template(self):
-        user, profile = self.create_valid_user_and_profile()
+        _, _ = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
 
         response = self.client.get(reverse('profiles list'))
@@ -109,7 +92,7 @@ class ProfilesListViewTest(ValidUserAndProfileMixin, TestCase):
 
 
 class ProfileBooksListViewTest(ValidUserAndProfileMixin, TestCase):
-    def test__when_two_books_of_user__context_to_contain_two_books_and_correct_template(self):
+    def test__when_two_books_of_user__expect_context_to_contain_two_books_and_correct_template(self):
         user, profile = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
 
@@ -131,7 +114,7 @@ class ProfileBooksListViewTest(ValidUserAndProfileMixin, TestCase):
 
 
 class ProfileBookshelvesListViewTest(ValidUserAndProfileMixin, TestCase):
-    def test__when_two_bookshelves_of_user__context_to_contain_two_bookshelves_and_correct_template(self):
+    def test__when_two_bookshelves_of_user__expect_context_to_contain_two_bookshelves_and_correct_template(self):
         user, profile = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
 

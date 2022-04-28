@@ -5,7 +5,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.forms import EditProfileForm
 from my_bookshelf.auth_app.models import Profile, ProfilePicture
-from my_bookshelf.common.mixins import SearchBarMixin
+from my_bookshelf.common.views_mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()

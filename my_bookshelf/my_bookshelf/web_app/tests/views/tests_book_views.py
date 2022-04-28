@@ -1,28 +1,8 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from my_bookshelf.auth_app.models import Profile
+from my_bookshelf.common.helpers import ValidUserAndProfileMixin
 from my_bookshelf.web_app.models import Book
-
-UserModel = get_user_model()
-
-
-class ValidUserAndProfileMixin:
-    VALID_USER_CREDENTIALS = {
-        'email': 'vaski@gmail.com',
-        'password': '123456',
-    }
-
-    VALID_PROFILE_DATA = {
-        'first_name': 'Vaski',
-        'last_name': 'Vaski',
-    }
-
-    def create_valid_user_and_profile(self):
-        user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(**self.VALID_PROFILE_DATA, user=user)
-        return user, profile
 
 
 class ValidBookDataMixin:
@@ -49,7 +29,7 @@ class BookCreateViewTests(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase
 
 class BookEditViewTests(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase):
     def test_edit__when_all_valid__should_edit_and_redirect_to_book_details(self):
-        user, profile = self.create_valid_user_and_profile()
+        user, _ = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
         book = Book.objects.create(**self.VALID_BOOK_DATA, user=user)
 
@@ -67,7 +47,7 @@ class BookEditViewTests(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase):
 
 class BookDeleteViewTest(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase):
     def test__when_valid__should_use_correct_template_delete_book_and_redirect_to_profile_books(self):
-        user, profile = self.create_valid_user_and_profile()
+        user, _ = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
         book = Book.objects.create(**self.VALID_BOOK_DATA, user=user)
 
@@ -97,7 +77,7 @@ class BookDetailsViewTest(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase
 
 class BooksListViewTest(ValidUserAndProfileMixin, ValidBookDataMixin, TestCase):
     def test__when_one_book__expect_context_to_contain_one_book_and_correct_template(self):
-        user, profile = self.create_valid_user_and_profile()
+        user, _ = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
         book = Book.objects.create(**self.VALID_BOOK_DATA, user=user)
 

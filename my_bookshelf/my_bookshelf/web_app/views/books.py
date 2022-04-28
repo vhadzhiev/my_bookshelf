@@ -4,7 +4,7 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
 from my_bookshelf.web_app.forms import BookCreateForm, BookEditForm
-from my_bookshelf.common.mixins import SearchBarMixin
+from my_bookshelf.common.views_mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, BookCover
 
 

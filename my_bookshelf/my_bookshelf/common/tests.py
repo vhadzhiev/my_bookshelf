@@ -6,7 +6,7 @@ from my_bookshelf.common.validators import validate_image_max_size_in_mb, IMAGE_
 
 
 class FakeFile:
-    size = (IMAGE_MAX_FILE_SIZE_IN_MB + 0.01) * 1024 * 1024
+    size = (IMAGE_MAX_FILE_SIZE_IN_MB + 0.000001) * 1024 * 1024
 
 
 class FakeImage:
