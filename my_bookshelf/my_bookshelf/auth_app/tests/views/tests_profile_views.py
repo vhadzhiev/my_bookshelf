@@ -29,7 +29,7 @@ class ValidUserAndProfileMixin:
 
 
 class ProfileDetailsViewTest(ValidUserAndProfileMixin, TestCase):
-    def test_get__when_profile_view__expect_correct_template_and_context(self):
+    def test_get__when_profile_details_view__expect_correct_template_and_context(self):
         user, profile = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
 

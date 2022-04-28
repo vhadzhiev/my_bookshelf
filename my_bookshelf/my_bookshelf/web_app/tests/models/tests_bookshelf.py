@@ -3,7 +3,7 @@ from django.test import TestCase
 
 from django.contrib.auth import get_user_model
 
-from my_bookshelf.web_app.models import Bookshelf, Book
+from my_bookshelf.web_app.models import Bookshelf
 
 UserModel = get_user_model()
 
