@@ -3,13 +3,13 @@ from django.urls import reverse_lazy
 from django.views import generic as views
 
 from my_bookshelf.auth_app.models import Profile
-from my_bookshelf.web_app.forms import CreateBookForm, EditBookForm
+from my_bookshelf.web_app.forms import BookCreateForm, BookEditForm
 from my_bookshelf.common.mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, BookCover
 
 
 class BookCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
-    form_class = CreateBookForm
+    form_class = BookCreateForm
     template_name = 'web_app/book_add.html'
 
     def get_form_kwargs(self):
@@ -26,7 +26,7 @@ class BookCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
 
 
 class BookEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
-    form_class = EditBookForm
+    form_class = BookEditForm
     model = Book
     template_name = 'web_app/book_edit.html'
 

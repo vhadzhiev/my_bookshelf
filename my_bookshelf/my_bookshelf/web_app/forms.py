@@ -7,7 +7,7 @@ BOOK_ISBN_EXCEPTION_MESSAGE = 'You have already added a book with this ISBN.'
 BOOKSHELF_TITLE_EXCEPTION_MESSAGE = 'You have already created a bookshelf with this title.'
 
 
-class CreateBookForm(forms.ModelForm):
+class BookCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
@@ -50,7 +50,7 @@ class CreateBookForm(forms.ModelForm):
         }
 
 
-class EditBookForm(forms.ModelForm):
+class BookEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         self.isbn = kwargs.pop('isbn')
@@ -97,7 +97,7 @@ class EditBookForm(forms.ModelForm):
         }
 
 
-class CreateBookshelfForm(forms.ModelForm):
+class BookshelfCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
@@ -133,7 +133,7 @@ class CreateBookshelfForm(forms.ModelForm):
         }
 
 
-class EditBookshelfForm(forms.ModelForm):
+class BookshelfEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         self.title = kwargs.pop('title')
