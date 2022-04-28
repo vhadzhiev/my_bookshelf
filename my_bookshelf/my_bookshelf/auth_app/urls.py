@@ -3,8 +3,8 @@ from django.views import generic as views
 
 from my_bookshelf.auth_app.views.passwords import ChangeUserPasswordView, ResetUserPasswordView, \
     ResetUserPasswordDoneView, ResetUserPasswordConfirmView, ResetUserPasswordCompleteView
-from my_bookshelf.auth_app.views.profile_pictures import CreateProfilePictureView, ChangeProfilePictureView, \
-    DeleteProfilePictureView
+from my_bookshelf.auth_app.views.profile_pictures import ProfilePictureCreateView, ProfilePictureChangeView, \
+    ProfilePictureDeleteView
 from my_bookshelf.auth_app.views.profiles import ProfileDetailsView, ProfileEditView, ProfileDeleteView, \
     ProfilesListView, ProfileBooksListView, ProfileBookshelvesListView
 from my_bookshelf.auth_app.views.users import UserRegisterView, UserLoginView, UserLogoutView
@@ -22,9 +22,9 @@ urlpatterns = (
     path('profile/<int:pk>/books/', ProfileBooksListView.as_view(), name='profile books'),
     path('profile/<int:pk>/bookshelves/', ProfileBookshelvesListView.as_view(), name='profile bookshelves'),
 
-    path('profile/picture/add/', CreateProfilePictureView.as_view(), name='profile picture create'),
-    path('profile/picture/edit/<int:pk>', ChangeProfilePictureView.as_view(), name='profile picture change'),
-    path('profile/picture/delete/<int:pk>', DeleteProfilePictureView.as_view(), name='profile picture delete'),
+    path('profile/picture/add/', ProfilePictureCreateView.as_view(), name='profile picture create'),
+    path('profile/picture/edit/<int:pk>', ProfilePictureChangeView.as_view(), name='profile picture change'),
+    path('profile/picture/delete/<int:pk>', ProfilePictureDeleteView.as_view(), name='profile picture delete'),
 
     path('password/change/<int:pk>/', ChangeUserPasswordView.as_view(), name='password change'),
     path('password/change/done/', views.TemplateView.as_view(template_name='auth_app/password_change_done.html'),

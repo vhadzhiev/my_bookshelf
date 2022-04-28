@@ -8,7 +8,7 @@ from my_bookshelf.common.mixins import SearchBarMixin
 from my_bookshelf.web_app.models import Book, BookCover
 
 
-class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
+class BookCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     form_class = CreateBookForm
     template_name = 'web_app/book_add.html'
 
@@ -25,7 +25,7 @@ class CreateBookView(auth_mixins.LoginRequiredMixin, views.CreateView):
         return reverse_lazy('profile books', kwargs={'pk': self.object.user.id})
 
 
-class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+class BookEditView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     form_class = EditBookForm
     model = Book
     template_name = 'web_app/book_edit.html'
@@ -40,7 +40,7 @@ class EditBookView(auth_mixins.LoginRequiredMixin, views.UpdateView):
         return reverse_lazy('book details', kwargs={'pk': self.object.id})
 
 
-class DeleteBookView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+class BookDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = Book
     template_name = 'web_app/book_delete.html'
     success_url = reverse_lazy('profile books')

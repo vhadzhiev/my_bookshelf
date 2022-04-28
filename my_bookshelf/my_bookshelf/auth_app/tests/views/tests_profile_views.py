@@ -24,17 +24,24 @@ class ValidUserAndProfileMixin:
 
     def create_valid_user_and_profile(self):
         user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(**self.VALID_PROFILE_DATA, user=user, )
+        profile = Profile.objects.create(**self.VALID_PROFILE_DATA, user=user)
         return user, profile
 
 
 class ProfileDetailsViewTest(ValidUserAndProfileMixin, TestCase):
-    def test_get__expect_correct_template(self):
+    def test_get__when_profile_view__expect_correct_template_and_context(self):
         user, profile = self.create_valid_user_and_profile()
         self.client.login(**self.VALID_USER_CREDENTIALS)
 
         response = self.client.get(reverse('profile details', kwargs={'pk': profile.user_id}))
 
+        books_count = response.context['books_count']
+        bookshelves_count = response.context['bookshelves_count']
+        profile_picture = response.context['profile_picture']
+
+        self.assertEqual(0, books_count)
+        self.assertEqual(0, bookshelves_count)
+        self.assertIsNone(profile_picture)
         self.assertTemplateUsed(response, 'auth_app/profile_details.html')
 
 
@@ -73,6 +80,19 @@ class ProfileEditViewTest(ValidUserAndProfileMixin, TestCase):
             profile.full_clean()
 
         self.assertIsNotNone(context.exception)
+
+
+class ProfileDeleteViewTest(ValidUserAndProfileMixin, TestCase):
+    def test__when_valid__should_use_correct_template_and_redirect_to_home(self):
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
+
+        response_get = self.client.get(reverse('profile delete', kwargs={'pk': profile.user_id}))
+        response_post = self.client.post(reverse('profile delete', kwargs={'pk': profile.user_id}))
+
+        expected_url = reverse('home')
+        self.assertTemplateUsed(response_get, 'auth_app/profile_delete.html')
+        self.assertRedirects(response_post, expected_url)
 
 
 class ProfilesListViewTest(ValidUserAndProfileMixin, TestCase):

@@ -5,7 +5,7 @@ from django.views import generic as views
 from my_bookshelf.web_app.models import BookCover, Book
 
 
-class CreateBookCoverView(auth_mixins.LoginRequiredMixin, views.CreateView):
+class BookCoverCreateView(auth_mixins.LoginRequiredMixin, views.CreateView):
     model = BookCover
     template_name = 'web_app/book_cover_add.html'
     fields = ('image',)
@@ -20,7 +20,7 @@ class CreateBookCoverView(auth_mixins.LoginRequiredMixin, views.CreateView):
         return super().form_valid(form)
 
 
-class ChangeBookCoverView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+class BookCoverChangeView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     model = BookCover
     template_name = 'web_app/book_cover_change.html'
     fields = ('image',)
@@ -30,7 +30,7 @@ class ChangeBookCoverView(auth_mixins.LoginRequiredMixin, views.UpdateView):
         return reverse_lazy('book details', kwargs={'pk': book_id})
 
 
-class DeleteBookCoverView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+class BookCoverDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     model = BookCover
     template_name = 'web_app/book_cover_delete.html'
 
