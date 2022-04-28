@@ -97,16 +97,16 @@ AUTH_PASSWORD_VALIDATORS = []
 if is_production():
     AUTH_PASSWORD_VALIDATORS.extend([
         {
-            'NAME': 'django.contrib.auth_app.password_validation.UserAttributeSimilarityValidator',
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
         },
         {
-            'NAME': 'django.contrib.auth_app.password_validation.MinimumLengthValidator',
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         },
         {
-            'NAME': 'django.contrib.auth_app.password_validation.CommonPasswordValidator',
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
         },
         {
-            'NAME': 'django.contrib.auth_app.password_validation.NumericPasswordValidator',
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
         },
     ])
 
@@ -132,7 +132,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGS_DIR = BASE_DIR / 'Logs'
+LOGS_DIR = BASE_DIR / 'logs'
 
 try:
     os.mkdir(LOGS_DIR)
