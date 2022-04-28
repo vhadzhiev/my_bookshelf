@@ -60,14 +60,14 @@ class EditBookForm(forms.ModelForm):
         isbn = self.isbn
         new_isbn = self.cleaned_data['isbn']
 
-        if isbn != new_isbn:
+        if new_isbn != isbn:
             try:
                 Book.objects.get(isbn=new_isbn, user_id=self.user.id)
             except Book.DoesNotExist:
                 pass
             else:
                 raise ValidationError(BOOK_ISBN_EXCEPTION_MESSAGE)
-        return isbn
+        return new_isbn
 
     class Meta:
         model = Book
@@ -145,14 +145,14 @@ class EditBookshelfForm(forms.ModelForm):
         title = self.title
         new_title = self.cleaned_data['title']
 
-        if title != new_title:
+        if new_title != title:
             try:
                 Bookshelf.objects.get(title=new_title, user_id=self.user.id)
             except Bookshelf.DoesNotExist:
                 pass
             else:
                 raise ValidationError(BOOKSHELF_TITLE_EXCEPTION_MESSAGE)
-        return title
+        return new_title
 
     class Meta:
         model = Bookshelf

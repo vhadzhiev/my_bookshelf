@@ -3,7 +3,7 @@
 {% block page_content %}
         <h1>Edit Book</h1>
         <hr>
-        <form action="{% url 'book edit' object.id %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'book edit' object.id %}" method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="text-center">

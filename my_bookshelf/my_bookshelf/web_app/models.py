@@ -97,6 +97,7 @@ class Bookshelf(models.Model):
 
     books = models.ManyToManyField(
         Book,
+        blank=True,
         help_text='Please, choose the books, that you want to include in this bookshelf.'
     )
 
