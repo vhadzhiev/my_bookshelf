@@ -46,10 +46,6 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
         user = self.object
         user.is_active = False
         user.save()
-        Profile.objects.get(pk=user.id).delete()
-        ProfilePicture.objects.filter(user_id=self.object.id).delete()
-        Book.objects.filter(user_id=user.id).delete()
-        Bookshelf.objects.filter(user_id=user.id).delete()
         return redirect('home')
 
 
@@ -80,5 +76,5 @@ class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin,
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'auth_app/profiles_list.html'
-    queryset = Profile.objects.order_by('first_name', 'last_name')
+    queryset = Profile.objects.order_by('first_name', 'last_name').filter(user__is_active=True)
     paginate_by = 10

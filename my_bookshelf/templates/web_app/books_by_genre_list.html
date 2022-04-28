@@ -10,6 +10,9 @@
             <button class="btn btn-success" type="submit">Submit</button>
         </div>
     </form>
+    {% if query %}
+        You searched for "{{ query }}"
+    {% endif %}
     <br>
     <table class="table table-hover">
         <thead class="thead-dark">

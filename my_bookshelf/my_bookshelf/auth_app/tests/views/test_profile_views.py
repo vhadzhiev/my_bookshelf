@@ -10,33 +10,38 @@ from my_bookshelf.web_app.models import Book, Bookshelf
 
 UserModel = get_user_model()
 
-VALID_USER_CREDENTIALS = {
-    'email': 'vaski@gmail.com',
-    'password': '123456',
-}
 
-VALID_PROFILE_DATA = {
-    'first_name': 'Vaski',
-    'last_name': 'Vaski',
-}
+class ValidUserAndProfileMixin:
+    VALID_USER_CREDENTIALS = {
+        'email': 'vaski@gmail.com',
+        'password': '123456',
+    }
+
+    VALID_PROFILE_DATA = {
+        'first_name': 'Vaski',
+        'last_name': 'Vaski',
+    }
+
+    def create_valid_user_and_profile(self):
+        user = UserModel.objects.create_user(**self.VALID_USER_CREDENTIALS)
+        profile = Profile.objects.create(**self.VALID_PROFILE_DATA, user=user, )
+        return user, profile
 
 
-class ProfileDetailsViewTest(TestCase):
+class ProfileDetailsViewTest(ValidUserAndProfileMixin, TestCase):
     def test_get__expect_correct_template(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         response = self.client.get(reverse('profile details', kwargs={'pk': profile.user_id}))
 
         self.assertTemplateUsed(response, 'auth_app/profile_details.html')
 
 
-class ProfileEditViewTest(TestCase):
+class ProfileEditViewTest(ValidUserAndProfileMixin, TestCase):
     def test__when_valid_edits__should_change_profile_and_redirect_to_details(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         data = {
             'first_name': 'Test',
@@ -55,9 +60,8 @@ class ProfileEditViewTest(TestCase):
         self.assertRedirects(response_post, expected_url)
 
     def test__when_invalid_date_of_birth__expect_exception(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         data = {
             'date_of_birth': date.today() + timedelta(days=1),
@@ -71,11 +75,10 @@ class ProfileEditViewTest(TestCase):
         self.assertIsNotNone(context.exception)
 
 
-class ProfilesListViewTest(TestCase):
+class ProfilesListViewTest(ValidUserAndProfileMixin, TestCase):
     def test__when_one_profile__expect_context_to_contain_one_profile_and_correct_template(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         response = self.client.get(reverse('profiles list'))
 
@@ -85,11 +88,10 @@ class ProfilesListViewTest(TestCase):
         self.assertTemplateUsed(response, 'auth_app/profiles_list.html')
 
 
-class ProfileBooksListViewTest(TestCase):
+class ProfileBooksListViewTest(ValidUserAndProfileMixin, TestCase):
     def test__when_two_books_of_user__context_to_contain_two_books_and_correct_template(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         user2 = UserModel.objects.create_user(email='vaski@abv.bg', password='654321')
 
@@ -108,11 +110,10 @@ class ProfileBooksListViewTest(TestCase):
         self.assertEqual(len(books), 2)
 
 
-class ProfileBookshelvesListViewTest(TestCase):
+class ProfileBookshelvesListViewTest(ValidUserAndProfileMixin, TestCase):
     def test__when_two_bookshelves_of_user__context_to_contain_two_bookshelves_and_correct_template(self):
-        user = UserModel.objects.create_user(**VALID_USER_CREDENTIALS)
-        profile = Profile.objects.create(user=user, **VALID_PROFILE_DATA)
-        self.client.login(**VALID_USER_CREDENTIALS)
+        user, profile = self.create_valid_user_and_profile()
+        self.client.login(**self.VALID_USER_CREDENTIALS)
 
         user2 = UserModel.objects.create_user(email='vaski@abv.bg', password='654321')
 

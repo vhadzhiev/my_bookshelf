@@ -20,5 +20,6 @@ class DashboardView(views.ListView):
     model = Book
     template_name = 'web_app/dashboard.html'
     queryset = Book.objects \
+                   .filter(user__is_active=True) \
                    .filter(date_added__gte=timezone.now() - timezone.timedelta(days=DAYS_FOR_RECENTLY_ADDED_BOOKS)) \
                    .order_by('-date_added')[:10]

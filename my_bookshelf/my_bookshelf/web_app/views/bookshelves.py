@@ -63,5 +63,5 @@ class BookshelfDetailsView(views.DetailView):
 class BookshelvesListView(SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
-    queryset = Bookshelf.objects.order_by('title')
+    queryset = Bookshelf.objects.order_by('title').filter(user__is_active=True)
     paginate_by = 10
