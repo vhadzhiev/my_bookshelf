@@ -67,11 +67,11 @@ WSGI_APPLICATION = 'my_bookshelf.wsgi.application'
 
 DEFAULT_DATABASE_CONFIG = {
     'ENGINE': 'django.db.backends.postgresql',
-    'HOST': os.getenv('DB_HOST'),
+    'HOST': os.getenv('DB_HOST', '127.0.0.1'),
     'PORT': os.getenv('DB_PORT', '5432'),
-    'NAME': os.getenv('DB_NAME'),
-    'USER': os.getenv('DB_USER'),
-    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'NAME': os.getenv('DB_NAME', 'my_bookshelf_db'),
+    'USER': os.getenv('DB_USER', 'postgres'),
+    'PASSWORD': os.getenv('DB_PASSWORD', '123456'),
 }
 
 DATABASES = {
