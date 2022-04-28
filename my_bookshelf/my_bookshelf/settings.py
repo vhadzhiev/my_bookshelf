@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import cloudinary
 from django.urls import reverse_lazy
-from my_bookshelf.utils import is_production, is_test
+from my_bookshelf.utils import is_production
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -67,11 +67,11 @@ WSGI_APPLICATION = 'my_bookshelf.wsgi.application'
 
 DEFAULT_DATABASE_CONFIG = {
     'ENGINE': 'django.db.backends.postgresql',
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT', '5432'),
     'NAME': os.getenv('DB_NAME'),
     'USER': os.getenv('DB_USER'),
     'PASSWORD': os.getenv('DB_PASSWORD'),
-    'HOST': os.getenv('DB_HOST'),
-    'PORT': os.getenv('DB_PORT', '5432'),
 }
 
 DATABASES = {
@@ -190,7 +190,7 @@ if is_production():
     LOGGING['loggers'] = {
         'django.db.backends': {
             'level': 'WARNING',
-            'handlers': ['coralogix',]
+            'handlers': ['coralogix', ]
         }
     }
 
