@@ -21,13 +21,14 @@ class Book(models.Model):
     HOBBIES = 'Hobbies'
     FANTASY = 'Fantasy'
     FICTION = 'Fiction'
+    NOVEL = 'Novel'
     SCIENCE = 'Science'
     SPORTS = 'Sports'
     TECH = 'Tech'
     OTHER = 'Other'
 
     GENRES = [(x, x) for x in (ADVENTURE, BIOGRAPHIES, BUSINESS, CHILDREN, CRIME, HEALTH, HISTORY, HOBBIES, FANTASY,
-                               FICTION, SCIENCE, SPORTS, TECH, OTHER)]
+                               FICTION, NOVEL, SCIENCE, SPORTS, TECH, OTHER)]
 
     TITLE_MAX_LEN = 100
     ISBN_MAX_LEN = 13
