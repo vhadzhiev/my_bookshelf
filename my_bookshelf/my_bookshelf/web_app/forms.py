@@ -44,7 +44,7 @@ class BookCreateForm(forms.ModelForm):
             'summary': forms.Textarea(
                 attrs={
                     'placeholder': 'Enter book\'s summary',
-                    'rows': 5,
+                    'rows': 10,
                 },
             ),
         }
@@ -91,7 +91,7 @@ class BookEditForm(forms.ModelForm):
             'summary': forms.Textarea(
                 attrs={
                     'placeholder': 'Enter book\'s summary',
-                    'rows': 5,
+                    'rows': 10,
                 },
             ),
         }
