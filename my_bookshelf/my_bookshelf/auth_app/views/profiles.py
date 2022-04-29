@@ -57,8 +57,8 @@ class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views
     paginate_by = 12
 
     def get_queryset(self):
-        object_list = super().get_queryset()
-        queryset = object_list.filter(user_id=self.request.user.id)
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user_id=self.request.user.id)
         return queryset
 
 
@@ -69,8 +69,8 @@ class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin,
     paginate_by = 12
 
     def get_queryset(self):
-        object_list = super().get_queryset()
-        queryset = object_list.filter(user_id=self.request.user.id)
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user_id=self.request.user.id)
         return queryset
 
 

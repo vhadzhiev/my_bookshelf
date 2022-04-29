@@ -83,7 +83,7 @@ class BooksByGenreListView(SearchBarMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        object_list = super().get_queryset()
+        queryset = super().get_queryset()
         book_genre = self.request.session['book_genre']
-        queryset = object_list.filter(genre=book_genre)
+        queryset = queryset.filter(genre=book_genre)
         return queryset

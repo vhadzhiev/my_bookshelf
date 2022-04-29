@@ -5,10 +5,10 @@ class SearchBarMixin:
     def get_queryset(self):
         query = self.request.GET.get('query')
         if query:
-            object_list = self.queryset.filter(title__icontains=query)
+            queryset = self.queryset.filter(title__icontains=query)
         else:
-            object_list = self.queryset
-        return object_list
+            queryset = self.queryset
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
