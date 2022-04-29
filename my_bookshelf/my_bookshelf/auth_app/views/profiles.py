@@ -1,4 +1,5 @@
 from django.contrib.auth import mixins as auth_mixins, get_user_model
+from django.db.models.functions import Lower
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -52,7 +53,7 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Book
     template_name = 'auth_app/profile_books.html'
-    queryset = Book.objects.order_by('title')
+    queryset = Book.objects.order_by(Lower('title'))
     paginate_by = 10
 
     def get_queryset(self):
@@ -64,7 +65,7 @@ class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views
 class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'auth_app/profile_bookshelves.html'
-    queryset = Bookshelf.objects.order_by('title')
+    queryset = Bookshelf.objects.order_by(Lower('title'))
     paginate_by = 10
 
     def get_queryset(self):
@@ -76,5 +77,5 @@ class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin,
 class ProfilesListView(auth_mixins.LoginRequiredMixin, views.ListView):
     model = Profile
     template_name = 'auth_app/profiles_list.html'
-    queryset = Profile.objects.order_by('first_name', 'last_name').filter(user__is_active=True)
+    queryset = Profile.objects.order_by(Lower('first_name'), Lower('last_name')).filter(user__is_active=True)
     paginate_by = 10

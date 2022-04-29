@@ -1,4 +1,5 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.db.models.functions import Lower
 from django.urls import reverse_lazy
 from django.views import generic as views
 
@@ -55,7 +56,7 @@ class BookshelfDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_list'] = self.object.books.all().order_by('title')
+        context['books_list'] = self.object.books.all().order_by(Lower('title'))
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
         return context
 
@@ -63,5 +64,5 @@ class BookshelfDetailsView(views.DetailView):
 class BookshelvesListView(SearchBarMixin, views.ListView):
     model = Bookshelf
     template_name = 'web_app/bookshelves_list.html'
-    queryset = Bookshelf.objects.order_by('title').filter(user__is_active=True)
+    queryset = Bookshelf.objects.order_by(Lower('title')).filter(user__is_active=True)
     paginate_by = 10

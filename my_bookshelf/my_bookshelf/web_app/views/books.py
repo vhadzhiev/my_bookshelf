@@ -1,4 +1,5 @@
 from django.contrib.auth import mixins as auth_mixins
+from django.db.models.functions import Lower
 from django.urls import reverse_lazy
 from django.views import generic as views
 
@@ -71,14 +72,14 @@ class BookDetailsView(views.DetailView):
 class BooksListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_list.html'
-    queryset = Book.objects.order_by('title').filter(user__is_active=True)
+    queryset = Book.objects.order_by(Lower('title')).filter(user__is_active=True)
     paginate_by = 10
 
 
 class BooksByGenreListView(SearchBarMixin, views.ListView):
     model = Book
     template_name = 'web_app/books_by_genre_list.html'
-    queryset = Book.objects.order_by('title').filter(user__is_active=True)
+    queryset = Book.objects.order_by(Lower('title')).filter(user__is_active=True)
     paginate_by = 10
 
     def get_queryset(self):
