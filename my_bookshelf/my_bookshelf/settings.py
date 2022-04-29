@@ -213,6 +213,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_URL = reverse_lazy('login user')
 
+# TODO add send welcome email after successful registration
 # TODO add sorting in ListViews
-# TODO add comments model
+# TODO add selection of pagination in ListViews
+# TODO add comments/review model
 # TODO add book rating
+# TODO translate site in BG (localization)
