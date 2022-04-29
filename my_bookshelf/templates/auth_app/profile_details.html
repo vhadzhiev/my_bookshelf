@@ -2,18 +2,20 @@
 {% block page_content %}
     <h1>{{ profile.full_name }}'s profile</h1>
     <hr>
-    {% if profile.user_id == request.user.id %}
-        {% if profile_picture %}
-            <div class="card" style="width: 18rem;">
-                <img src="{{ profile_picture.picture.url }}" class="card-img-top" alt="No profile pic">
-            </div>
+    {% if profile_picture %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ profile_picture.picture.url }}" class="card-img-top" alt="No profile pic">
+        </div>
+        {% if profile.user_id == request.user.id %}
             <a href="{% url 'profile picture change' profile_picture.user_id %}" class="badge badge-warning">Change
                 Profile
                 Picture</a>
             <a href="{% url 'profile picture delete' profile_picture.user_id %}" class="badge badge-danger">Delete
                 Profile
                 Picture</a>
-        {% else %}
+        {% endif %}
+    {% else %}
+        {% if profile.user_id == request.user.id %}
             <a href="{% url 'profile picture create' %}" class="badge badge-success">Add Profile Picture</a>
         {% endif %}
     {% endif %}

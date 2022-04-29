@@ -1,0 +1,11 @@
+{% load crispy_forms_filters %}
+<form method="get">
+    {% csrf_token %}
+    {{ search_form|crispy }}
+    <div class="text-center">
+        <button class="btn btn-success" type="submit">Submit</button>
+    </div>
+</form>
+{% if query %}
+    You searched for "{{ query }}"
+{% endif %}
