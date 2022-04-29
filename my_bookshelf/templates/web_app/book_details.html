@@ -23,7 +23,7 @@
         <h5>Genre: <a href="{% url 'books list by genre' %}">{{ book.genre }}</a></h5>
         <h5>Owner: <a href="{% url 'profile details' book.user_id %}">{{ owner }}</a></h5>
         {% if book.summary %}
-            <h5>Summary: {{ book.summary }}</h5>
+            <h5 align="justify">Summary: {{ book.summary }}</h5>
         {% endif %}
         <br>
         {% if book.user_id == request.user.id %}

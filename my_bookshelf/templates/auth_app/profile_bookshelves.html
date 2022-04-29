@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ bookshelf.title }}</h5>
                     {% if bookshelf.description %}
-                        <p class="card-text">{{ bookshelf.description|truncatechars:100 }}</p>
+                        <p class="card-text" align="justify">{{ bookshelf.description|truncatechars:100 }}</p>
                     {% endif %}
                     <p><a href="{% url 'bookshelf details' bookshelf.id %}" class="badge badge-success">Bookshelf
                         details</a></p>

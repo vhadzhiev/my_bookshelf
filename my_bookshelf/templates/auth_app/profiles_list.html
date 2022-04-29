@@ -15,7 +15,7 @@
             <tr>
                 <td><a href="{% url 'profile details' profile.user_id %}">{{ profile.full_name }}</a></td>
                 <td>{{ profile.user }}</td>
-                <td>{{ profile.bio|truncatechars:50 }}</td>
+                <td align="justify">{{ profile.bio|truncatechars:50 }}</td>
             </tr>
         {% endfor %}
         </tbody>

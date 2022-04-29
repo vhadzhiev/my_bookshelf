@@ -29,7 +29,7 @@
                 <td><a href="{% url 'book details' book.id %}">{{ book.title }}</a></td>
                 <td>{{ book.author }}</td>
                 <td>{{ book.genre }}</td>
-                <td>{{ book.summary|truncatechars:50 }}</td>
+                <td align="justify">{{ book.summary|truncatechars:50 }}</td>
             </tr>
         {% endfor %}
         </tbody>
