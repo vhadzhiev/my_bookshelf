@@ -53,8 +53,8 @@ class ProfileDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 class ProfileBooksListView(auth_mixins.LoginRequiredMixin, SearchBarMixin, views.ListView):
     model = Book
     template_name = 'auth_app/profile_books.html'
-    queryset = Book.objects.order_by(Lower('title'))
-    paginate_by = 10
+    queryset = Book.objects.order_by('-date_added')
+    paginate_by = 12
 
     def get_queryset(self):
         object_list = super().get_queryset()
@@ -66,7 +66,7 @@ class ProfileBookshelvesListView(auth_mixins.LoginRequiredMixin, SearchBarMixin,
     model = Bookshelf
     template_name = 'auth_app/profile_bookshelves.html'
     queryset = Bookshelf.objects.order_by(Lower('title'))
-    paginate_by = 10
+    paginate_by = 12
 
     def get_queryset(self):
         object_list = super().get_queryset()

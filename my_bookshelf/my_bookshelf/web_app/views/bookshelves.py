@@ -56,7 +56,7 @@ class BookshelfDetailsView(views.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books_list'] = self.object.books.all().order_by(Lower('title'))
+        context['books_list'] = self.object.books.all().order_by('-date_added')
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
         return context
 
