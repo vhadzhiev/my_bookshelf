@@ -2,14 +2,16 @@
 {% block page_content %}
     <h1>Book details</h1>
     <hr>
-    {% if book.user_id == request.user.id %}
-        {% if book_cover %}
-            <div class="card" style="width: 18rem;">
-                <img src="{{ book_cover.image.url }}" class="card-img-top" alt="No book cover">
-            </div>
+    {% if book_cover %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ book_cover.image.url }}" class="card-img-top" alt="No book cover">
+        </div>
+        {% if book.user_id == request.user.id %}
             <a href="{% url 'book cover change' book.id %}" class="badge badge-warning">Change Book Cover</a>
             <a href="{% url 'book cover delete' book.id %}" class="badge badge-danger">Delete Book Cover</a>
-        {% else %}
+        {% endif %}
+    {% else %}
+        {% if book.user_id == request.user.id %}
             <a href="{% url 'book cover add' %}" class="badge badge-success">Add Book Cover</a>
         {% endif %}
     {% endif %}
@@ -19,7 +21,7 @@
         <h5>Author: {{ book.author }}</h5>
         <h5>ISBN: {{ book.isbn }}</h5>
         <h5>Genre: <a href="{% url 'books list by genre' %}">{{ book.genre }}</a></h5>
-        <h5>Owner: <a href="{% url 'profile details' book.user_id%}">{{ owner }}</a></h5>
+        <h5>Owner: <a href="{% url 'profile details' book.user_id %}">{{ owner }}</a></h5>
         {% if book.summary %}
             <h5>Summary: {{ book.summary }}</h5>
         {% endif %}
