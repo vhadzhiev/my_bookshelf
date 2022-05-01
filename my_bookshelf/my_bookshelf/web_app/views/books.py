@@ -57,6 +57,7 @@ class BookDetailsView(views.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
+        self.request.session['book_id'] = self.object.id
         self.request.session['book_genre'] = self.object.genre
 
         try:
