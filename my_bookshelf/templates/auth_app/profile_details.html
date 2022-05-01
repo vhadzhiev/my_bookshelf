@@ -41,7 +41,7 @@
         <br>
     </div>
     <div>
-        <p class="mt-2">{{ object.full_name }}'s Books: <a href="{% url 'profile books' object.user_id %}">{{ books_count }}</a></p>
-        <p class="mt-2">{{ object.full_name }}'s Bookshelves: <a href="{% url 'profile bookshelves' object.user_id %}">{{ bookshelves_count }}</a></p>
+        <p class="mt-2">{{ object.full_name }}'s Books: {{ books_count }}</p>
+        <p class="mt-2">{{ object.full_name }}'s Bookshelves: {{ bookshelves_count }}</p>
     </div>
 {% endblock %}
