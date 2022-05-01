@@ -52,7 +52,6 @@ class BookshelfDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 class BookshelfDetailsView(views.DetailView):
     model = Bookshelf
     template_name = 'web_app/bookshelf_details.html'
-    context_object_name = 'bookshelf'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

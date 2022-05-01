@@ -1,47 +1,47 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <h1>{{ profile.full_name }}'s profile</h1>
+    <h1>{{ object.full_name }}'s profile</h1>
     <hr>
     {% if profile_picture %}
         <div class="card" style="width: 18rem;">
             <img src="{{ profile_picture.picture.url }}" class="card-img-top" alt="No profile pic">
         </div>
-        {% if profile.user_id == request.user.id %}
-            <a href="{% url 'profile picture change' profile_picture.user_id %}" class="badge badge-warning">Change
+        {% if object.user_id == request.user.id %}
+            <a href="{% url 'profile picture change' object.user_id %}" class="badge badge-warning">Change
                 Profile
                 Picture</a>
-            <a href="{% url 'profile picture delete' profile_picture.user_id %}" class="badge badge-danger">Delete
+            <a href="{% url 'profile picture delete' object.user_id %}" class="badge badge-danger">Delete
                 Profile
                 Picture</a>
         {% endif %}
     {% else %}
-        {% if profile.user_id == request.user.id %}
+        {% if object.user_id == request.user.id %}
             <a href="{% url 'profile picture create' %}" class="badge badge-success">Add Profile Picture</a>
         {% endif %}
     {% endif %}
     <div>
         <br>
-        <h5>First name: {{ profile.first_name }}</h5>
-        <h5>Last name: {{ profile.last_name }}</h5>
-        {% if profile.date_of_birth %}
-            <h5>Age: {{ profile.age }}</h5>
+        <h5>First name: {{ object.first_name }}</h5>
+        <h5>Last name: {{ object.last_name }}</h5>
+        {% if object.date_of_birth %}
+            <h5>Age: {{ object.age }}</h5>
         {% endif %}
-        <h5>e-mail: {{ profile.user }}</h5>
-        {% if profile.bio %}
-            <h5 align="justify">Bio: {{ profile.bio }}</h5>
+        <h5>e-mail: {{ object.user }}</h5>
+        {% if object.bio %}
+            <h5 align="justify">Bio: {{ object.bio }}</h5>
         {% endif %}
         <br>
-        {% if profile.user_id == request.user.id %}
+        {% if object.user_id == request.user.id %}
             <div class="text-center">
-                <a class="btn btn-success" href="{% url 'profile edit' profile.user_id %}">Edit Profile</a>
-                <a class="btn btn-danger" href="{% url 'profile delete' profile.user_id %}">Delete Profile</a>
-                <a class="btn btn-warning" href="{% url 'password change' profile.user_id %}">Change Password</a>
+                <a class="btn btn-success" href="{% url 'profile edit' object.user_id %}">Edit Profile</a>
+                <a class="btn btn-danger" href="{% url 'profile delete' object.user_id %}">Delete Profile</a>
+                <a class="btn btn-warning" href="{% url 'password change' object.user_id %}">Change Password</a>
             </div>
         {% endif %}
         <br>
     </div>
     <div>
-        <p class="mt-2">{{ profile.full_name }}'s Books: {{ books_count }}</p>
-        <p class="mt-2">{{ profile.full_name }}'s Bookshelves: {{ bookshelves_count }}</p>
+        <p class="mt-2">{{ object.full_name }}'s Books: <a href="{% url 'profile books' object.user_id %}">{{ books_count }}</a></p>
+        <p class="mt-2">{{ object.full_name }}'s Bookshelves: <a href="{% url 'profile bookshelves' object.user_id %}">{{ bookshelves_count }}</a></p>
     </div>
 {% endblock %}

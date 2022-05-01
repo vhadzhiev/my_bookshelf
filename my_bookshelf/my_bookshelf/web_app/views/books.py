@@ -53,12 +53,10 @@ class BookDeleteView(auth_mixins.LoginRequiredMixin, views.DeleteView):
 class BookDetailsView(views.DetailView):
     model = Book
     template_name = 'web_app/book_details.html'
-    context_object_name = 'book'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['owner'] = Profile.objects.get(user_id=self.object.user.id)
-        self.request.session['book_id'] = self.object.id
         self.request.session['book_genre'] = self.object.genre
 
         try:

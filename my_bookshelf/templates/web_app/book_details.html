@@ -6,30 +6,30 @@
         <div class="card" style="width: 18rem;">
             <img src="{{ book_cover.image.url }}" class="card-img-top" alt="No book cover">
         </div>
-        {% if book.user_id == request.user.id %}
-            <a href="{% url 'book cover change' book.id %}" class="badge badge-warning">Change Book Cover</a>
-            <a href="{% url 'book cover delete' book.id %}" class="badge badge-danger">Delete Book Cover</a>
+        {% if object.user_id == request.user.id %}
+            <a href="{% url 'book cover change' object.id %}" class="badge badge-warning">Change Book Cover</a>
+            <a href="{% url 'book cover delete' object.id %}" class="badge badge-danger">Delete Book Cover</a>
         {% endif %}
     {% else %}
-        {% if book.user_id == request.user.id %}
+        {% if object.user_id == request.user.id %}
             <a href="{% url 'book cover add' %}" class="badge badge-success">Add Book Cover</a>
         {% endif %}
     {% endif %}
     <div>
         <br>
-        <h5>Title: {{ book.title }}</h5>
-        <h5>Author: {{ book.author }}</h5>
-        <h5>ISBN: {{ book.isbn }}</h5>
-        <h5>Genre: <a href="{% url 'books list by genre' %}">{{ book.genre }}</a></h5>
-        <h5>Owner: <a href="{% url 'profile details' book.user_id %}">{{ owner }}</a></h5>
-        {% if book.summary %}
-            <h5 align="justify">Summary: {{ book.summary }}</h5>
+        <h5>Title: {{ object.title }}</h5>
+        <h5>Author: {{ object.author }}</h5>
+        <h5>ISBN: {{ object.isbn }}</h5>
+        <h5>Genre: <a href="{% url 'books list by genre' %}">{{ object.genre }}</a></h5>
+        <h5>Owner: <a href="{% url 'profile details' object.user_id %}">{{ owner }}</a></h5>
+        {% if object.summary %}
+            <h5 align="justify">Summary: {{ object.summary }}</h5>
         {% endif %}
         <br>
-        {% if book.user_id == request.user.id %}
+        {% if object.user_id == request.user.id %}
             <div class="text-center">
-                <a class="btn btn-success" href="{% url 'book edit' book.id %}">Edit Book</a>
-                <a class="btn btn-danger" href="{% url 'book delete' book.id %}">Delete Book</a>
+                <a class="btn btn-success" href="{% url 'book edit' object.id %}">Edit Book</a>
+                <a class="btn btn-danger" href="{% url 'book delete' object.id %}">Delete Book</a>
             </div>
         {% endif %}
     </div>
